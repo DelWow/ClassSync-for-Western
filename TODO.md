@@ -9,13 +9,12 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Configure the application as a SwiftUI app
 - [x] Set a reasonable minimum supported macOS version
 - [x] Set the application name and bundle identifier
-- [ ] Create the initial app, model, view, service, provider, persistence, utility, and resource organization
-  - App, Models, Views, and Resources are in place; service, provider, persistence, and utility folders will be added with their first implementations.
+- [x] Create the initial app, model, view, service, provider, persistence, utility, and resource organization
 - [x] Add a project `.gitignore` for Xcode output, user state, and secret configuration
 - [x] Confirm the project opens in Xcode
 - [x] Confirm the project builds successfully
 - [x] Confirm the application launches successfully
-- [ ] Document local development prerequisites
+- [x] Document local development prerequisites
 
 ## Phase 1 — Native macOS Menu Bar Foundation
 
@@ -33,44 +32,43 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 2 — Assignment and Course Domain Models
 
-- [ ] Create the shared assignment model
-- [ ] Create the shared course model
-- [ ] Create the assignment status enum
-- [ ] Create the assignment source enum
-- [ ] Create the assignment change model
-- [ ] Create the assignment change type enum
-- [ ] Define stable internal and provider identifier behavior
-- [ ] Represent optional due dates safely
-- [ ] Represent optional source URLs safely
-- [ ] Add model unit tests
+- [x] Create the shared assignment model
+- [x] Create the shared course model
+- [x] Create the assignment status enum
+- [x] Create the assignment source enum
+- [x] Create the assignment change model
+- [x] Create the assignment change type enum
+- [x] Define stable internal and provider identifier behavior
+- [x] Represent optional due dates safely
+- [x] Represent optional source URLs safely
+- [x] Add model unit tests
 
 ## Phase 3 — SwiftData Persistence
 
-- [ ] Configure the SwiftData model container
-- [ ] Create the persistent course model
-- [ ] Create the persistent assignment model
-- [ ] Create the persistent assignment change model
-- [ ] Create the persistent sync metadata model
-- [ ] Persist non-sensitive user preferences where appropriate
+- [x] Configure the SwiftData model container
+- [x] Create the persistent course model
+- [x] Create the persistent assignment model
+- [x] Create the persistent assignment change model
+- [x] Create the persistent sync metadata model
+- [x] Persist non-sensitive user preferences where appropriate
 - [ ] Persist provider configuration without credentials or tokens
-- [ ] Implement conversion between persistence and domain models if needed
-- [ ] Prevent duplicate persistent courses
-- [ ] Prevent duplicate persistent assignments
-- [ ] Test saving courses and assignments
+- [x] Implement conversion between persistence and domain models if needed
+- [x] Prevent duplicate persistent courses
+- [x] Prevent duplicate persistent assignments
+- [x] Test saving courses and assignments
 - [ ] Test loading saved data after application restart
 - [ ] Define a practical schema migration strategy
-- [ ] Handle persistence initialization and migration failures safely
+- [x] Handle persistence initialization and migration failures safely
 
 ## Phase 4 — Mock Assignment Data
 
 - [x] Add representative development/mock assignments
 - [x] Include assignments due today, tomorrow, and later this week
-- [ ] Include an overdue assignment fixture
-- [ ] Include an assignment without a due date fixture
-- [ ] Include a long assignment title fixture
+- [x] Include an overdue assignment fixture
+- [x] Include an assignment without a due date fixture
+- [x] Include a long assignment title fixture
 - [x] Sort mock assignments by due date
-- [ ] Group mock assignments into Today, Tomorrow, This Week, and No Due Date
-  - Today, Tomorrow, and This Week are implemented; No Due Date awaits an optional-due-date domain model.
+- [x] Group mock assignments into Today, Tomorrow, This Week, and No Due Date
 - [x] Display mock assignments in the menu bar interface
 - [x] Verify the mock-data UI does not require network access
 
@@ -79,45 +77,45 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Show each assignment title
 - [x] Show each assignment course name or code
 - [x] Show each assignment due date and time
-- [ ] Show each assignment source
+- [x] Show each assignment source
 - [x] Show an upcoming assignment count
-- [ ] Visually distinguish overdue assignments without relying on color alone
-- [ ] Visually distinguish submitted assignments when status is available
-- [ ] Make assignments with source URLs clickable
-- [ ] Open assignment URLs in the default browser
-- [ ] Handle long assignment and course names gracefully
+- [x] Visually distinguish overdue assignments without relying on color alone
+- [x] Visually distinguish submitted assignments when status is available
+- [x] Make assignments with source URLs clickable
+- [x] Open assignment URLs in the default browser
+- [x] Handle long assignment and course names gracefully
 - [x] Add useful empty states for each date group
-- [ ] Add a compact loading state
-- [ ] Add a compact synchronization error state
+- [x] Add a compact loading state
+- [x] Add a compact synchronization error state
 
 ## Phase 6 — Dashboard
 
-- [ ] Create a full native macOS dashboard window
+- [x] Create a full native macOS dashboard window
 - [x] Open the dashboard from the menu bar
-- [ ] Add sidebar navigation
-- [ ] Add the Today section
-- [ ] Add the Upcoming section
-- [ ] Add the Calendar section
-- [ ] Add the Changes section
-- [ ] Add the Courses section
-- [ ] Add the Settings section
+- [x] Add sidebar navigation
+- [x] Add the Today section
+- [x] Add the Upcoming section
+- [x] Add the Calendar section
+- [x] Add the Changes section
+- [x] Add the Courses section
+- [x] Add the Settings section
 - [x] Add the upcoming assignment list
-- [ ] Add course filtering
-- [ ] Add assignment search
-- [ ] Preserve window sizing and sensible macOS behavior
-- [ ] Add useful empty, loading, and error states
+- [x] Add course filtering
+- [x] Add assignment search
+- [x] Preserve window sizing and sensible macOS behavior
+- [x] Add useful empty, loading, and error states
 
 ## Phase 7 — Provider Architecture
 
-- [ ] Define an LMS assignment-provider protocol
-- [ ] Define provider authentication behavior
-- [ ] Define course-fetching behavior
-- [ ] Define assignment-fetching behavior
-- [ ] Define provider capability and availability metadata
-- [ ] Keep provider-specific data types outside shared UI code
-- [ ] Normalize provider output into shared course and assignment models
-- [ ] Add dependency injection for provider selection
-- [ ] Create a mock provider for offline development and tests
+- [x] Define an LMS assignment-provider protocol
+- [x] Define provider authentication behavior
+- [x] Define course-fetching behavior
+- [x] Define assignment-fetching behavior
+- [x] Define provider capability and availability metadata
+- [x] Keep provider-specific data types outside shared UI code
+- [x] Normalize provider output into shared course and assignment models
+- [x] Add dependency injection for provider selection
+- [x] Create a mock provider for offline development and tests
 - [ ] Add provider contract tests
 
 ## Phase 8 — Brightspace Integration Layer
@@ -143,25 +141,25 @@ This file is the source of truth for project progress. Check an item only after 
 - [ ] Implement a secure connect-account flow
 - [ ] Support MFA without bypassing university protections
 - [ ] Implement an embedded WebKit flow only if required and appropriate
-- [ ] Never request storage of the user's Western password
-- [ ] Never bypass access controls or authentication protections
+- [x] Never request storage of the user's Western password
+- [x] Never bypass access controls or authentication protections
 - [ ] Detect authentication expiration
 - [ ] Provide a reconnect flow
 - [ ] Provide a disconnect flow
-- [ ] Provide a mock authentication path if production access is unavailable
+- [x] Provide a mock authentication path if production access is unavailable
 
 ## Phase 10 — Keychain Storage
 
-- [ ] Create `KeychainService`
-- [ ] Save authentication tokens in macOS Keychain
-- [ ] Read authentication tokens from macOS Keychain
-- [ ] Delete authentication tokens from macOS Keychain
-- [ ] Define appropriate Keychain accessibility settings
-- [ ] Never store tokens in source code
-- [ ] Never store tokens in `UserDefaults`
-- [ ] Never print passwords, tokens, cookies, or secrets
-- [ ] Exclude secrets from crash and diagnostic logs
-- [ ] Add Keychain error handling and tests
+- [x] Create `KeychainService`
+- [x] Save authentication tokens in macOS Keychain
+- [x] Read authentication tokens from macOS Keychain
+- [x] Delete authentication tokens from macOS Keychain
+- [x] Define appropriate Keychain accessibility settings
+- [x] Never store tokens in source code
+- [x] Never store tokens in `UserDefaults`
+- [x] Never print passwords, tokens, cookies, or secrets
+- [x] Exclude secrets from crash and diagnostic logs
+- [x] Add Keychain error handling and tests
 
 ## Phase 11 — Brightspace Course Sync
 
@@ -194,36 +192,36 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 13 — Sync Engine
 
-- [ ] Create `SyncService`
-- [ ] Define idle, syncing, success, and failed sync states
-- [ ] Prevent simultaneous sync operations
-- [ ] Fetch provider data through the provider protocol
-- [ ] Normalize fetched data
-- [ ] Compare remote data with local data
+- [x] Create `SyncService`
+- [x] Define idle, syncing, success, and failed sync states
+- [x] Prevent simultaneous sync operations
+- [x] Fetch provider data through the provider protocol
+- [x] Normalize fetched data
+- [x] Compare remote data with local data
 - [ ] Store changes atomically where practical
-- [ ] Store the last attempted sync time
-- [ ] Store the last successful sync time
-- [ ] Handle offline and network failure states
-- [ ] Handle expired authentication
+- [x] Store the last attempted sync time
+- [x] Store the last successful sync time
+- [x] Handle offline and network failure states
+- [x] Handle expired authentication
 - [ ] Implement bounded retries only for appropriate transient failures
-- [ ] Support manual synchronization
-- [ ] Surface user-friendly synchronization errors
-- [ ] Add sync-engine unit and integration tests
+- [x] Support manual synchronization
+- [x] Surface user-friendly synchronization errors
+- [x] Add sync-engine unit and integration tests
 
 ## Phase 14 — Due-Date and Assignment Change Detection
 
-- [ ] Detect assignment due-date changes
-- [ ] Detect assignment title changes
-- [ ] Detect newly created assignments
-- [ ] Detect removed or cancelled assignments
+- [x] Detect assignment due-date changes
+- [x] Detect assignment title changes
+- [x] Detect newly created assignments
+- [x] Detect removed or cancelled assignments
 - [ ] Detect assignment availability changes
-- [ ] Detect submission-status changes when available
-- [ ] Record old and new values safely
-- [ ] Record the detection timestamp
-- [ ] Avoid recording the same change more than once
-- [ ] Handle time-zone-equivalent dates without false changes
-- [ ] Add high-priority due-date change tests
-- [ ] Add tests for every supported change type
+- [x] Detect submission-status changes when available
+- [x] Record old and new values safely
+- [x] Record the detection timestamp
+- [x] Avoid recording the same change more than once
+- [x] Handle time-zone-equivalent dates without false changes
+- [x] Add high-priority due-date change tests
+- [x] Add tests for every supported change type
 
 ## Phase 15 — Native macOS Notifications
 
@@ -255,26 +253,26 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 17 — Change History
 
-- [ ] Persist assignment change history
-- [ ] Create the Recent Changes dashboard screen
-- [ ] Show course and assignment context
-- [ ] Show old and new values
-- [ ] Show when each change was detected
+- [x] Persist assignment change history
+- [x] Create the Recent Changes dashboard screen
+- [x] Show course and assignment context
+- [x] Show old and new values
+- [x] Show when each change was detected
 - [ ] Filter changes by course
 - [ ] Filter changes by change type
 - [ ] Filter changes by date
-- [ ] Add an informative empty state
+- [x] Add an informative empty state
 - [ ] Define history retention behavior
 
 ## Phase 18 — Calendar
 
-- [ ] Build a simple native SwiftUI month calendar
+- [x] Build a simple native SwiftUI month calendar
 - [ ] Add assignment indicators to dates
-- [ ] Show assignments for the selected date
-- [ ] Add a chronological list view
-- [ ] Open assignments from calendar and list views
-- [ ] Handle month navigation
-- [ ] Handle locale, calendar, and time-zone settings
+- [x] Show assignments for the selected date
+- [x] Add a chronological list view
+- [x] Open assignments from calendar and list views
+- [x] Handle month navigation
+- [x] Handle locale, calendar, and time-zone settings
 - [ ] Add accessible labels and keyboard navigation
 - [ ] Add a week view only after month and list views are reliable
 
@@ -293,18 +291,18 @@ This file is the source of truth for project progress. Check an item only after 
 ## Phase 20 — Settings
 
 - [x] Create the native Settings scene
-- [ ] Add a General settings section
-- [ ] Add a Sync settings section
-- [ ] Add a Notifications settings section
-- [ ] Add a Courses settings section
-- [ ] Add an Account settings section
-- [ ] Add automatic-sync preference
-- [ ] Add configurable sync frequency
-- [ ] Add per-notification-type preferences
+- [x] Add a General settings section
+- [x] Add a Sync settings section
+- [x] Add a Notifications settings section
+- [x] Add a Courses settings section
+- [x] Add an Account settings section
+- [x] Add automatic-sync preference
+- [x] Add configurable sync frequency
+- [x] Add per-notification-type preferences
 - [ ] Add per-course enable and disable controls
 - [ ] Add Brightspace connect and disconnect controls
-- [ ] Persist settings locally
-- [ ] Apply setting changes without requiring an unnecessary restart
+- [x] Persist settings locally
+- [x] Apply setting changes without requiring an unnecessary restart
 
 ## Phase 21 — Background Sync
 
@@ -352,13 +350,13 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 25 — Assignment Links and Read-Only Guarantees
 
-- [ ] Retain the original provider URL for each assignment when available
+- [x] Retain the original provider URL for each assignment when available
 - [ ] Validate provider URLs before opening them
-- [ ] Open assignment pages in the default browser
-- [ ] Provide a fallback when an assignment URL is missing
-- [ ] Document that the application is read-only
-- [ ] Ensure no provider client method submits assignments
-- [ ] Ensure no provider client method modifies LMS course content
+- [x] Open assignment pages in the default browser
+- [x] Provide a fallback when an assignment URL is missing
+- [x] Document that the application is read-only
+- [x] Ensure no provider client method submits assignments
+- [x] Ensure no provider client method modifies LMS course content
 
 ## Phase 26 — Error Handling
 
@@ -375,26 +373,26 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 27 — Logging and Diagnostics
 
-- [ ] Create lightweight structured logging
-- [ ] Add Authentication, Sync, Database, Notifications, and Brightspace categories
-- [ ] Use appropriate log privacy annotations
-- [ ] Never log passwords, OAuth tokens, or session cookies
-- [ ] Avoid logging unnecessary student information
-- [ ] Add useful development diagnostics for failed syncs
+- [x] Create lightweight structured logging
+- [x] Add Authentication, Sync, Database, Notifications, and Brightspace categories
+- [x] Use appropriate log privacy annotations
+- [x] Never log passwords, OAuth tokens, or session cookies
+- [x] Avoid logging unnecessary student information
+- [x] Add useful development diagnostics for failed syncs
 - [ ] Add a privacy-safe diagnostics export only if needed
 
 ## Phase 28 — Automated Testing
 
-- [ ] Configure the unit test target
-- [ ] Test assignment sorting
-- [ ] Test assignments without due dates
-- [ ] Test due-date change detection
-- [ ] Test duplicate prevention across repeated syncs
-- [ ] Test existing assignment updates
+- [x] Configure the unit test target
+- [x] Test assignment sorting
+- [x] Test assignments without due dates
+- [x] Test due-date change detection
+- [x] Test duplicate prevention across repeated syncs
+- [x] Test existing assignment updates
 - [ ] Test reminder rescheduling after a due-date change
 - [ ] Test provider mapping
-- [ ] Test sync state transitions
-- [ ] Test authentication-expiration handling
+- [x] Test sync state transitions
+- [x] Test authentication-expiration handling
 - [ ] Add UI tests for critical menu bar and dashboard flows where practical
 - [ ] Run the test suite in continuous integration
 
@@ -412,30 +410,30 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 30 — Privacy and Security Review
 
-- [ ] Document the minimum data collected and why
-- [ ] Store only required course, assignment, sync, preference, and change data
-- [ ] Avoid storing grades, messages, class lists, or other students' data
-- [ ] Avoid storing unnecessary instructor information
-- [ ] Keep local files protected by standard macOS application sandboxing
-- [ ] Review App Sandbox entitlements and network access
+- [x] Document the minimum data collected and why
+- [x] Store only required course, assignment, sync, preference, and change data
+- [x] Avoid storing grades, messages, class lists, or other students' data
+- [x] Avoid storing unnecessary instructor information
+- [x] Keep local files protected by standard macOS application sandboxing
+- [x] Review App Sandbox entitlements and network access
 - [ ] Review Keychain access scope
 - [ ] Add local-data deletion controls
 - [ ] Delete local provider data on account disconnect when the user requests it
-- [ ] Complete a secrets and sensitive-logging review
-- [ ] Document privacy behavior for users
+- [x] Complete a secrets and sensitive-logging review
+- [x] Document privacy behavior for users
 
 ## Phase 31 — Documentation and README
 
-- [ ] Create the project README
-- [ ] Explain what the application does
-- [ ] List current features and known limitations
-- [ ] Document requirements and build steps
-- [ ] Document the architecture and folder structure
-- [ ] Document Brightspace authentication and integration behavior
-- [ ] Document local storage and privacy considerations
-- [ ] Link to or summarize the roadmap
-- [ ] Add the independent-project and non-affiliation disclaimer
-- [ ] Confirm no Western University logo or protected branding is used without permission
+- [x] Create the project README
+- [x] Explain what the application does
+- [x] List current features and known limitations
+- [x] Document requirements and build steps
+- [x] Document the architecture and folder structure
+- [x] Document Brightspace authentication and integration behavior
+- [x] Document local storage and privacy considerations
+- [x] Link to or summarize the roadmap
+- [x] Add the independent-project and non-affiliation disclaimer
+- [x] Confirm no Western University logo or protected branding is used without permission
 - [ ] Document manual testing steps for release candidates
 
 ## Phase 32 — Development Configuration and Release Hygiene
@@ -445,9 +443,9 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Ignore `.DS_Store`, DerivedData, user state, and secret files
 - [ ] Add Debug-only mock-data configuration
 - [ ] Define Debug and Release behavior clearly
-- [ ] Configure application sandbox entitlements
-- [ ] Configure only required capabilities
-- [ ] Set application version and build numbering
+- [x] Configure application sandbox entitlements
+- [x] Configure only required capabilities
+- [x] Set application version and build numbering
 - [ ] Add an application icon that does not misuse university branding
 - [ ] Validate a clean build from a fresh checkout
 - [ ] Prepare signing, notarization, and distribution documentation

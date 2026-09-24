@@ -2,27 +2,43 @@ import AppKit
 import SwiftUI
 
 struct MenuBarView: View {
-    let assignments: [MockAssignment]
-    @Binding var lastSyncedAt: Date?
+    @ObservedObject var appModel: AppModel
 
     @Environment(\.openWindow) private var openWindow
-    @State private var isSyncing = false
 
     private var calendar: Calendar { .current }
 
-    private var dueToday: [MockAssignment] {
-        assignments.filter { calendar.isDateInToday($0.dueDate) }
+    private var overdue: [Assignment] {
+        appModel.assignments.filter(\.isOverdue)
     }
 
-    private var dueTomorrow: [MockAssignment] {
-        assignments.filter { calendar.isDateInTomorrow($0.dueDate) }
-    }
-
-    private var dueThisWeek: [MockAssignment] {
-        assignments.filter {
-            !calendar.isDateInToday($0.dueDate)
-                && !calendar.isDateInTomorrow($0.dueDate)
+    private var dueToday: [Assignment] {
+        appModel.assignments.filter {
+            !$0.isOverdue && $0.dueDate.map(calendar.isDateInToday) == true
         }
+    }
+
+    private var dueTomorrow: [Assignment] {
+        appModel.assignments.filter {
+            !$0.isOverdue && $0.dueDate.map(calendar.isDateInTomorrow) == true
+        }
+    }
+
+    private var dueThisWeek: [Assignment] {
+        appModel.assignments.filter { assignment in
+            guard let dueDate = assignment.dueDate else { return false }
+            return !assignment.isOverdue
+                && !calendar.isDateInToday(dueDate)
+                && !calendar.isDateInTomorrow(dueDate)
+        }
+    }
+
+    private var withoutDueDate: [Assignment] {
+        appModel.assignments.filter { $0.dueDate == nil }
+    }
+
+    private var upcomingCount: Int {
+        appModel.assignments.filter { !$0.isOverdue && $0.status != .submitted && $0.dueDate != nil }.count
     }
 
     var body: some View {
@@ -30,41 +46,59 @@ struct MenuBarView: View {
             Label("ClassSync", systemImage: "calendar.badge.clock")
                 .font(.headline)
 
+            if let persistenceMessage = appModel.persistenceMessage {
+                Label(persistenceMessage, systemImage: "externaldrive.badge.exclamationmark")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+
+            if case let .failed(message) = appModel.syncState {
+                Label(message, systemImage: "wifi.exclamationmark")
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
+
             Divider()
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    if !overdue.isEmpty {
+                        assignmentSection(title: "Overdue", assignments: overdue)
+                    }
                     assignmentSection(title: "Today", assignments: dueToday)
                     assignmentSection(title: "Tomorrow", assignments: dueTomorrow)
                     assignmentSection(title: "This Week", assignments: dueThisWeek)
+                    assignmentSection(title: "No Due Date", assignments: withoutDueDate)
                 }
             }
-            .frame(maxHeight: 300)
+            .frame(maxHeight: 390)
 
             Divider()
 
             HStack {
-                Text("\(assignments.count) upcoming")
+                Text("\(upcomingCount) upcoming")
                 Spacer()
                 Text(lastSyncedDescription)
             }
             .font(.caption)
             .foregroundStyle(.secondary)
 
-            Button(action: syncNow) {
+            Button {
+                Task { await appModel.syncNow() }
+            } label: {
                 HStack {
-                    if isSyncing {
+                    if appModel.syncState == .syncing {
                         ProgressView()
                             .controlSize(.small)
                     } else {
                         Image(systemName: "arrow.triangle.2.circlepath")
                     }
 
-                    Text(isSyncing ? "Syncing…" : "Sync Now")
+                    Text(appModel.syncState == .syncing ? "Syncing…" : "Sync Now")
                     Spacer()
                 }
             }
-            .disabled(isSyncing)
+            .disabled(appModel.syncState == .syncing)
 
             Button {
                 NSApp.activate(ignoringOtherApps: true)
@@ -94,21 +128,18 @@ struct MenuBarView: View {
         }
         .buttonStyle(.bordered)
         .padding(16)
-        .frame(width: 360)
+        .frame(width: 380)
     }
 
     @ViewBuilder
-    private func assignmentSection(
-        title: String,
-        assignments: [MockAssignment]
-    ) -> some View {
+    private func assignmentSection(title: String, assignments: [Assignment]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title.uppercased())
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
 
             if assignments.isEmpty {
-                Text("No assignments due \(title.lowercased()).")
+                Text(emptyMessage(for: title))
                     .font(.callout)
                     .foregroundStyle(.secondary)
             } else {
@@ -119,22 +150,15 @@ struct MenuBarView: View {
         }
     }
 
-    private var lastSyncedDescription: String {
-        guard let lastSyncedAt else {
-            return "Last synced: Never"
-        }
-
-        return "Last synced: \(lastSyncedAt.formatted(date: .omitted, time: .shortened))"
+    private func emptyMessage(for title: String) -> String {
+        title == "No Due Date" ? "Every assignment has a due date." : "No assignments due \(title.lowercased())."
     }
 
-    private func syncNow() {
-        isSyncing = true
-
-        Task {
-            try? await Task.sleep(nanoseconds: 400_000_000)
-            lastSyncedAt = Date()
-            isSyncing = false
+    private var lastSyncedDescription: String {
+        guard let lastSyncedAt = appModel.lastSyncedAt else {
+            return "Last synced: Never"
         }
+        return "Last synced: \(lastSyncedAt.formatted(date: .omitted, time: .shortened))"
     }
 }
 

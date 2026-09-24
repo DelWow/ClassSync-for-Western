@@ -1,26 +1,40 @@
+import SwiftData
 import SwiftUI
 
 @main
 struct ClassSyncApp: App {
-    @State private var lastSyncedAt: Date?
+    private let modelContainer: ModelContainer
+    @StateObject private var appModel: AppModel
+
+    @MainActor
+    init() {
+        let persistence = PersistenceController.shared
+        let store = SwiftDataAssignmentStore(container: persistence.container)
+        modelContainer = persistence.container
+        _appModel = StateObject(
+            wrappedValue: AppModel(
+                provider: MockAssignmentProvider(),
+                store: store
+            )
+        )
+    }
 
     var body: some Scene {
         MenuBarExtra("ClassSync", systemImage: "calendar.badge.clock") {
-            MenuBarView(
-                assignments: MockAssignment.upcoming,
-                lastSyncedAt: $lastSyncedAt
-            )
+            MenuBarView(appModel: appModel)
+                .task { appModel.load() }
         }
         .menuBarExtraStyle(.window)
 
         Window("ClassSync Dashboard", id: "dashboard") {
-            DashboardView(assignments: MockAssignment.upcoming)
+            DashboardView(appModel: appModel)
+                .task { appModel.load() }
         }
         .defaultSize(width: 720, height: 480)
 
         Settings {
-            SettingsView()
+            SettingsView(courses: appModel.courses)
+                .task { appModel.load() }
         }
     }
 }
-
