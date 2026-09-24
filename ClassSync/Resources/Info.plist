@@ -22,8 +22,9 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026. All rights reserved.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>ClassSync needs calendar access to create, update, and remove the assignment deadline events you choose to sync.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
 </plist>
-

@@ -39,6 +39,21 @@ final class PersistenceTests: XCTestCase {
         XCTAssertEqual(try store.fetchAssignments().map(\.id), ["two"])
     }
 
+    func testDeleteAllDataClearsEveryPersistentRecord() throws {
+        let controller = PersistenceController(inMemory: true)
+        let store = SwiftDataAssignmentStore(container: controller.container)
+        try store.saveCourses(MockData.courses)
+        try store.replaceAssignments(with: MockData.assignments)
+        try store.updateSyncMetadata(providerID: "mock", attemptedAt: Date(), successfulAt: Date())
+
+        try store.deleteAllData()
+
+        XCTAssertTrue(try store.fetchCourses().isEmpty)
+        XCTAssertTrue(try store.fetchAssignments().isEmpty)
+        XCTAssertTrue(try store.fetchChanges().isEmpty)
+        XCTAssertNil(try store.lastSuccessfulSync(providerID: "mock"))
+    }
+
     func testChangeHistoryAndSyncMetadataPersist() throws {
         let controller = PersistenceController(inMemory: true)
         let store = SwiftDataAssignmentStore(container: controller.container)
@@ -52,4 +67,3 @@ final class PersistenceTests: XCTestCase {
         XCTAssertEqual(try store.lastSuccessfulSync(providerID: "test"), syncDate)
     }
 }
-

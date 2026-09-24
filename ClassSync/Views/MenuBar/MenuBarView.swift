@@ -9,23 +9,23 @@ struct MenuBarView: View {
     private var calendar: Calendar { .current }
 
     private var overdue: [Assignment] {
-        appModel.assignments.filter(\.isOverdue)
+        appModel.visibleAssignments.filter(\.isOverdue)
     }
 
     private var dueToday: [Assignment] {
-        appModel.assignments.filter {
+        appModel.visibleAssignments.filter {
             !$0.isOverdue && $0.dueDate.map(calendar.isDateInToday) == true
         }
     }
 
     private var dueTomorrow: [Assignment] {
-        appModel.assignments.filter {
+        appModel.visibleAssignments.filter {
             !$0.isOverdue && $0.dueDate.map(calendar.isDateInTomorrow) == true
         }
     }
 
     private var dueThisWeek: [Assignment] {
-        appModel.assignments.filter { assignment in
+        appModel.visibleAssignments.filter { assignment in
             guard let dueDate = assignment.dueDate else { return false }
             return !assignment.isOverdue
                 && !calendar.isDateInToday(dueDate)
@@ -34,11 +34,11 @@ struct MenuBarView: View {
     }
 
     private var withoutDueDate: [Assignment] {
-        appModel.assignments.filter { $0.dueDate == nil }
+        appModel.visibleAssignments.filter { $0.dueDate == nil }
     }
 
     private var upcomingCount: Int {
-        appModel.assignments.filter { !$0.isOverdue && $0.status != .submitted && $0.dueDate != nil }.count
+        appModel.visibleAssignments.filter { !$0.isOverdue && $0.status != .submitted && $0.dueDate != nil }.count
     }
 
     var body: some View {
@@ -144,7 +144,10 @@ struct MenuBarView: View {
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(assignments) { assignment in
-                    AssignmentRow(assignment: assignment)
+                    AssignmentRow(
+                        assignment: assignment,
+                        courseColorHex: appModel.colorHex(for: assignment.courseID)
+                    )
                 }
             }
         }
@@ -161,4 +164,3 @@ struct MenuBarView: View {
         return "Last synced: \(lastSyncedAt.formatted(date: .omitted, time: .shortened))"
     }
 }
-

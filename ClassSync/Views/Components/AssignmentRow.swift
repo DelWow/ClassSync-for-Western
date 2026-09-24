@@ -2,9 +2,10 @@ import SwiftUI
 
 struct AssignmentRow: View {
     let assignment: Assignment
+    var courseColorHex: String? = nil
 
     var body: some View {
-        if let url = assignment.url {
+        if let url = AssignmentURLValidator.validatedURL(for: assignment) {
             Link(destination: url) {
                 rowContent
             }
@@ -17,6 +18,11 @@ struct AssignmentRow: View {
 
     private var rowContent: some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
+            Circle()
+                .fill(Color(hex: courseColorHex) ?? .secondary)
+                .frame(width: 8, height: 8)
+                .accessibilityHidden(true)
+
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
                     Text(assignment.courseCode)

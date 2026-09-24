@@ -116,34 +116,34 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Normalize provider output into shared course and assignment models
 - [x] Add dependency injection for provider selection
 - [x] Create a mock provider for offline development and tests
-- [ ] Add provider contract tests
+- [x] Add provider contract tests
 
 ## Phase 8 — Brightspace Integration Layer
 
-- [ ] Create the isolated Brightspace provider directory
-- [ ] Create `BrightspaceProvider`
-- [ ] Create `BrightspaceClient`
-- [ ] Create Brightspace response models
-- [ ] Create `BrightspaceMapper`
-- [ ] Create the Brightspace authentication component
-- [ ] Determine Western OWL Brightspace tenant and supported official API configuration
-- [ ] Document required university approval or API registration
-- [ ] Implement authenticated read-only requests
-- [ ] Map Brightspace errors into user-safe application errors
-- [ ] Ensure shared UI does not depend on Brightspace response types
-- [ ] Prevent write, submission, or course-content modification operations
+- [x] Create the isolated Brightspace provider directory
+- [x] Create `BrightspaceProvider`
+- [x] Create `BrightspaceClient`
+- [x] Create Brightspace response models
+- [x] Create `BrightspaceMapper`
+- [x] Create the Brightspace authentication component
+- [x] Determine Western OWL Brightspace tenant and supported official API configuration
+- [x] Document required university approval or API registration
+- [x] Implement authenticated read-only requests
+- [x] Map Brightspace errors into user-safe application errors
+- [x] Ensure shared UI does not depend on Brightspace response types
+- [x] Prevent write, submission, or course-content modification operations
 
 ## Phase 9 — Authentication
 
-- [ ] Research official Brightspace OAuth/API access for Western
-- [ ] Prefer official OAuth when it is available
-- [ ] Document the authentication approach and threat model
+- [x] Research official Brightspace OAuth/API access for Western
+- [x] Prefer official OAuth when it is available
+- [x] Document the authentication approach and threat model
 - [ ] Implement a secure connect-account flow
 - [ ] Support MFA without bypassing university protections
 - [ ] Implement an embedded WebKit flow only if required and appropriate
 - [x] Never request storage of the user's Western password
 - [x] Never bypass access controls or authentication protections
-- [ ] Detect authentication expiration
+- [x] Detect authentication expiration
 - [ ] Provide a reconnect flow
 - [ ] Provide a disconnect flow
 - [x] Provide a mock authentication path if production access is unavailable
@@ -163,32 +163,32 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 11 — Brightspace Course Sync
 
-- [ ] Fetch the student's active courses
-- [ ] Map external Brightspace course IDs
-- [ ] Map course code and name
-- [ ] Map provider source and active state
-- [ ] Save courses locally
-- [ ] Update renamed courses
-- [ ] Avoid duplicate courses
+- [x] Fetch the student's active courses
+- [x] Map external Brightspace course IDs
+- [x] Map course code and name
+- [x] Map provider source and active state
+- [x] Save courses locally
+- [x] Update renamed courses
+- [x] Avoid duplicate courses
 - [ ] Ignore or archive old courses according to a documented rule
-- [ ] Respect locally disabled courses
-- [ ] Test course creation, update, and deduplication
+- [x] Respect locally disabled courses
+- [x] Test course creation, update, and deduplication
 
 ## Phase 12 — Brightspace Assignment Sync
 
-- [ ] Fetch Brightspace assignments
+- [x] Fetch Brightspace assignments
 - [ ] Fetch relevant quizzes
-- [ ] Fetch relevant labs, projects, exams, discussions, and calendar deadlines where supported
-- [ ] Store stable Brightspace item IDs
-- [ ] Map items into the shared assignment model
-- [ ] Save due dates and time zones correctly
-- [ ] Save course relationships
-- [ ] Save original Brightspace URLs
-- [ ] Update existing assignments instead of duplicating them
-- [ ] Handle assignments without due dates
-- [ ] Handle deleted or cancelled assignments
-- [ ] Map submission status when the API provides it
-- [ ] Test assignment creation, update, removal, and deduplication
+- [x] Fetch relevant labs, projects, exams, discussions, and calendar deadlines where supported
+- [x] Store stable Brightspace item IDs
+- [x] Map items into the shared assignment model
+- [x] Save due dates and time zones correctly
+- [x] Save course relationships
+- [x] Save original Brightspace URLs
+- [x] Update existing assignments instead of duplicating them
+- [x] Handle assignments without due dates
+- [x] Handle deleted or cancelled assignments
+- [x] Map submission status when the API provides it
+- [x] Test assignment creation, update, removal, and deduplication
 
 ## Phase 13 — Sync Engine
 
@@ -198,12 +198,12 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Fetch provider data through the provider protocol
 - [x] Normalize fetched data
 - [x] Compare remote data with local data
-- [ ] Store changes atomically where practical
+- [x] Store changes atomically where practical
 - [x] Store the last attempted sync time
 - [x] Store the last successful sync time
 - [x] Handle offline and network failure states
 - [x] Handle expired authentication
-- [ ] Implement bounded retries only for appropriate transient failures
+- [x] Implement bounded retries only for appropriate transient failures
 - [x] Support manual synchronization
 - [x] Surface user-friendly synchronization errors
 - [x] Add sync-engine unit and integration tests
@@ -225,31 +225,31 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 15 — Native macOS Notifications
 
-- [ ] Add the UserNotifications framework
-- [ ] Request notification permission in context
-- [ ] Explain why notification permission is needed
-- [ ] Handle denied notification permission gracefully
-- [ ] Send a due-date-change notification
-- [ ] Send a new-assignment notification when enabled
-- [ ] Send a removed-assignment notification when enabled
-- [ ] Include useful course and assignment context
-- [ ] Open the relevant assignment or dashboard from a notification when possible
-- [ ] Record handled notifications
-- [ ] Prevent repeat notifications for the same change
-- [ ] Test authorization and notification construction
+- [x] Add the UserNotifications framework
+- [x] Request notification permission in context
+- [x] Explain why notification permission is needed
+- [x] Handle denied notification permission gracefully
+- [x] Send a due-date-change notification
+- [x] Send a new-assignment notification when enabled
+- [x] Send a removed-assignment notification when enabled
+- [x] Include useful course and assignment context
+- [x] Open the relevant assignment or dashboard from a notification when possible
+- [x] Record handled notifications
+- [x] Prevent repeat notifications for the same change
+- [x] Test authorization and notification construction
 
 ## Phase 16 — Deadline Reminders
 
-- [ ] Add configurable 24-hour reminders
-- [ ] Add configurable 6-hour reminders
-- [ ] Add configurable 1-hour reminders
-- [ ] Schedule native local notifications
-- [ ] Avoid scheduling duplicate reminders
-- [ ] Cancel reminders for removed or submitted assignments
-- [ ] Cancel outdated reminders when a due date changes
-- [ ] Schedule replacement reminders after a due-date change
-- [ ] Handle deadlines too near or already past
-- [ ] Test reminder scheduling, cancellation, and rescheduling
+- [x] Add configurable 24-hour reminders
+- [x] Add configurable 6-hour reminders
+- [x] Add configurable 1-hour reminders
+- [x] Schedule native local notifications
+- [x] Avoid scheduling duplicate reminders
+- [x] Cancel reminders for removed or submitted assignments
+- [x] Cancel outdated reminders when a due date changes
+- [x] Schedule replacement reminders after a due-date change
+- [x] Handle deadlines too near or already past
+- [x] Test reminder scheduling, cancellation, and rescheduling
 
 ## Phase 17 — Change History
 
@@ -258,34 +258,34 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Show course and assignment context
 - [x] Show old and new values
 - [x] Show when each change was detected
-- [ ] Filter changes by course
-- [ ] Filter changes by change type
-- [ ] Filter changes by date
+- [x] Filter changes by course
+- [x] Filter changes by change type
+- [x] Filter changes by date
 - [x] Add an informative empty state
-- [ ] Define history retention behavior
+- [x] Define history retention behavior
 
 ## Phase 18 — Calendar
 
 - [x] Build a simple native SwiftUI month calendar
-- [ ] Add assignment indicators to dates
+- [x] Add assignment indicators to dates
 - [x] Show assignments for the selected date
 - [x] Add a chronological list view
 - [x] Open assignments from calendar and list views
 - [x] Handle month navigation
 - [x] Handle locale, calendar, and time-zone settings
-- [ ] Add accessible labels and keyboard navigation
+- [x] Add accessible labels and keyboard navigation
 - [ ] Add a week view only after month and list views are reliable
 
 ## Phase 19 — Course Colors
 
-- [ ] Assign a default color to each course
-- [ ] Allow users to choose course colors
-- [ ] Persist course color choices
-- [ ] Apply course colors in assignment lists
-- [ ] Apply course colors in the calendar
-- [ ] Apply course colors in the menu bar
-- [ ] Apply course colors in change history
-- [ ] Pair colors with text or symbols so status never relies on color alone
+- [x] Assign a default color to each course
+- [x] Allow users to choose course colors
+- [x] Persist course color choices
+- [x] Apply course colors in assignment lists
+- [x] Apply course colors in the calendar
+- [x] Apply course colors in the menu bar
+- [x] Apply course colors in change history
+- [x] Pair colors with text or symbols so status never relies on color alone
 - [ ] Verify acceptable contrast in light and dark appearances
 
 ## Phase 20 — Settings
@@ -299,59 +299,59 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Add automatic-sync preference
 - [x] Add configurable sync frequency
 - [x] Add per-notification-type preferences
-- [ ] Add per-course enable and disable controls
+- [x] Add per-course enable and disable controls
 - [ ] Add Brightspace connect and disconnect controls
 - [x] Persist settings locally
 - [x] Apply setting changes without requiring an unnecessary restart
 
 ## Phase 21 — Background Sync
 
-- [ ] Research supported macOS background-refresh approaches
-- [ ] Choose and document the MVP scheduling approach
-- [ ] Avoid constant polling
-- [ ] Respect macOS resource and battery management
-- [ ] Support an approximate 30-to-60-minute refresh interval when possible
-- [ ] Honor the user's configured sync frequency
-- [ ] Honor manual-only mode
-- [ ] Preserve the manual Sync Now action
-- [ ] Prevent background and manual sync collisions
-- [ ] Communicate that exact background intervals are not guaranteed
+- [x] Research supported macOS background-refresh approaches
+- [x] Choose and document the MVP scheduling approach
+- [x] Avoid constant polling
+- [x] Respect macOS resource and battery management
+- [x] Support an approximate 30-to-60-minute refresh interval when possible
+- [x] Honor the user's configured sync frequency
+- [x] Honor manual-only mode
+- [x] Preserve the manual Sync Now action
+- [x] Prevent background and manual sync collisions
+- [x] Communicate that exact background intervals are not guaranteed
 - [ ] Test foreground-to-background behavior
 
 ## Phase 22 — Menu Bar Status
 
-- [ ] Show an unobtrusive healthy state
-- [ ] Show the number of assignments due today when enabled
-- [ ] Show a due-soon indicator
-- [ ] Show a synchronization problem indicator
-- [ ] Provide accessible text for every icon state
-- [ ] Avoid distracting or rapidly changing status
+- [x] Show an unobtrusive healthy state
+- [x] Show the number of assignments due today when enabled
+- [x] Show a due-soon indicator
+- [x] Show a synchronization problem indicator
+- [x] Provide accessible text for every icon state
+- [x] Avoid distracting or rapidly changing status
 
 ## Phase 23 — Launch at Login
 
-- [ ] Add a Launch at Login preference
-- [ ] Implement launch at login with Apple's supported API
-- [ ] Reflect the actual system registration state
-- [ ] Handle registration failures gracefully
+- [x] Add a Launch at Login preference
+- [x] Implement launch at login with Apple's supported API
+- [x] Reflect the actual system registration state
+- [x] Handle registration failures gracefully
 - [ ] Verify enable and disable behavior
 
 ## Phase 24 — Apple Calendar Integration
 
-- [ ] Add an opt-in Apple Calendar setting
-- [ ] Request EventKit permission in context
-- [ ] Handle denied calendar permission gracefully
-- [ ] Let the user choose or create a target calendar
-- [ ] Create assignment events without duplicates
-- [ ] Store event identifiers needed for later updates
-- [ ] Update existing events when due dates change
-- [ ] Remove or mark events when assignments are cancelled according to user preference
-- [ ] Disable calendar integration cleanly
-- [ ] Test event creation, update, deduplication, and removal
+- [x] Add an opt-in Apple Calendar setting
+- [x] Request EventKit permission in context
+- [x] Handle denied calendar permission gracefully
+- [x] Let the user choose or create a target calendar
+- [x] Create assignment events without duplicates
+- [x] Store event identifiers needed for later updates
+- [x] Update existing events when due dates change
+- [x] Remove or mark events when assignments are cancelled according to user preference
+- [x] Disable calendar integration cleanly
+- [x] Test event creation, update, deduplication, and removal
 
 ## Phase 25 — Assignment Links and Read-Only Guarantees
 
 - [x] Retain the original provider URL for each assignment when available
-- [ ] Validate provider URLs before opening them
+- [x] Validate provider URLs before opening them
 - [x] Open assignment pages in the default browser
 - [x] Provide a fallback when an assignment URL is missing
 - [x] Document that the application is read-only
@@ -360,15 +360,15 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 26 — Error Handling
 
-- [ ] Define typed application errors
-- [ ] Add a friendly network-error message
+- [x] Define typed application errors
+- [x] Add a friendly network-error message
 - [ ] Add an expired-session message with reconnect action
-- [ ] Add a provider-unavailable message
-- [ ] Add a persistence-error message
-- [ ] Add notification and calendar permission guidance
-- [ ] Preserve diagnostic context without exposing secrets
-- [ ] Never expose raw tokens, sensitive headers, or stack traces to users
-- [ ] Make recoverable errors actionable
+- [x] Add a provider-unavailable message
+- [x] Add a persistence-error message
+- [x] Add notification and calendar permission guidance
+- [x] Preserve diagnostic context without exposing secrets
+- [x] Never expose raw tokens, sensitive headers, or stack traces to users
+- [x] Make recoverable errors actionable
 - [ ] Test key error-state UI
 
 ## Phase 27 — Logging and Diagnostics
@@ -389,8 +389,8 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Test due-date change detection
 - [x] Test duplicate prevention across repeated syncs
 - [x] Test existing assignment updates
-- [ ] Test reminder rescheduling after a due-date change
-- [ ] Test provider mapping
+- [x] Test reminder rescheduling after a due-date change
+- [x] Test provider mapping
 - [x] Test sync state transitions
 - [x] Test authentication-expiration handling
 - [ ] Add UI tests for critical menu bar and dashboard flows where practical
@@ -398,15 +398,15 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 29 — Brightspace Provider Testing
 
-- [ ] Create `MockBrightspaceClient`
-- [ ] Inject the Brightspace network client
-- [ ] Add representative sanitized Brightspace fixtures
-- [ ] Test successful response mapping
-- [ ] Test pagination where applicable
-- [ ] Test missing and malformed fields
-- [ ] Test rate-limit and temporary-server errors
-- [ ] Test unauthorized and expired-session responses
-- [ ] Ensure provider tests do not require a live student account
+- [x] Create `MockBrightspaceClient`
+- [x] Inject the Brightspace network client
+- [x] Add representative sanitized Brightspace fixtures
+- [x] Test successful response mapping
+- [x] Test pagination where applicable
+- [x] Test missing and malformed fields
+- [x] Test rate-limit and temporary-server errors
+- [x] Test unauthorized and expired-session responses
+- [x] Ensure provider tests do not require a live student account
 
 ## Phase 30 — Privacy and Security Review
 
@@ -416,8 +416,8 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Avoid storing unnecessary instructor information
 - [x] Keep local files protected by standard macOS application sandboxing
 - [x] Review App Sandbox entitlements and network access
-- [ ] Review Keychain access scope
-- [ ] Add local-data deletion controls
+- [x] Review Keychain access scope
+- [x] Add local-data deletion controls
 - [ ] Delete local provider data on account disconnect when the user requests it
 - [x] Complete a secrets and sensitive-logging review
 - [x] Document privacy behavior for users
@@ -434,21 +434,21 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Link to or summarize the roadmap
 - [x] Add the independent-project and non-affiliation disclaimer
 - [x] Confirm no Western University logo or protected branding is used without permission
-- [ ] Document manual testing steps for release candidates
+- [x] Document manual testing steps for release candidates
 
 ## Phase 32 — Development Configuration and Release Hygiene
 
 - [ ] Add example configuration files if configuration becomes necessary
-- [ ] Keep real configuration and secrets out of version control
+- [x] Keep real configuration and secrets out of version control
 - [x] Ignore `.DS_Store`, DerivedData, user state, and secret files
-- [ ] Add Debug-only mock-data configuration
-- [ ] Define Debug and Release behavior clearly
+- [x] Add Debug-only mock-data configuration
+- [x] Define Debug and Release behavior clearly
 - [x] Configure application sandbox entitlements
 - [x] Configure only required capabilities
 - [x] Set application version and build numbering
-- [ ] Add an application icon that does not misuse university branding
+- [x] Add an application icon that does not misuse university branding
 - [ ] Validate a clean build from a fresh checkout
-- [ ] Prepare signing, notarization, and distribution documentation
+- [x] Prepare signing, notarization, and distribution documentation
 
 ## Phase 33 — MVP End-to-End Validation
 
@@ -480,7 +480,7 @@ This file is the source of truth for project progress. Check an item only after 
 
 ## Phase 35 — Future Multi-University Support
 
-- [ ] Keep Western-specific configuration out of shared domain and UI layers
+- [x] Keep Western-specific configuration out of shared domain and UI layers
 - [ ] Create a university configuration model
 - [ ] Map universities to one or more supported LMS providers
 - [ ] Add university selection and setup UI

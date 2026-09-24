@@ -200,8 +200,18 @@ protocol AssignmentStore: AnyObject {
     func saveCourses(_ courses: [Course]) throws
     func replaceAssignments(with assignments: [Assignment]) throws
     func saveChanges(_ changes: [AssignmentChange]) throws
+    func applySyncResult(
+        courses: [Course],
+        assignments: [Assignment],
+        changes: [AssignmentChange],
+        providerID: String,
+        attemptedAt: Date,
+        successfulAt: Date
+    ) throws
+    func markChangeNotificationHandled(id: UUID) throws
     func lastSuccessfulSync(providerID: String) throws -> Date?
     func updateSyncMetadata(providerID: String, attemptedAt: Date, successfulAt: Date?) throws
+    func deleteAllData() throws
 }
 
 @MainActor
@@ -232,6 +242,47 @@ final class SwiftDataAssignmentStore: AssignmentStore {
     }
 
     func saveCourses(_ courses: [Course]) throws {
+        try upsertCourses(courses)
+        try context.save()
+    }
+
+    func replaceAssignments(with assignments: [Assignment]) throws {
+        try replaceAssignmentModels(with: assignments)
+        try context.save()
+    }
+
+    func saveChanges(_ changes: [AssignmentChange]) throws {
+        try insertChangesAndApplyRetention(changes)
+        try context.save()
+    }
+
+    func applySyncResult(
+        courses: [Course],
+        assignments: [Assignment],
+        changes: [AssignmentChange],
+        providerID: String,
+        attemptedAt: Date,
+        successfulAt: Date
+    ) throws {
+        do {
+            try upsertCourses(courses)
+            try replaceAssignmentModels(with: assignments)
+            try insertChangesAndApplyRetention(changes)
+            let stored = try metadata(providerID: providerID) ?? {
+                let value = PersistentSyncMetadata(providerID: providerID)
+                context.insert(value)
+                return value
+            }()
+            stored.lastAttemptedAt = attemptedAt
+            stored.lastSuccessfulAt = successfulAt
+            try context.save()
+        } catch {
+            context.rollback()
+            throw error
+        }
+    }
+
+    private func upsertCourses(_ courses: [Course]) throws {
         let existing = try context.fetch(FetchDescriptor<PersistentCourse>())
         let byID = Dictionary(uniqueKeysWithValues: existing.map { ($0.id, $0) })
 
@@ -242,10 +293,9 @@ final class SwiftDataAssignmentStore: AssignmentStore {
                 context.insert(PersistentCourse(course: course))
             }
         }
-        try context.save()
     }
 
-    func replaceAssignments(with assignments: [Assignment]) throws {
+    private func replaceAssignmentModels(with assignments: [Assignment]) throws {
         let existing = try context.fetch(FetchDescriptor<PersistentAssignment>())
         let byID = Dictionary(uniqueKeysWithValues: existing.map { ($0.id, $0) })
         let currentIDs = Set(assignments.map(\.id))
@@ -261,14 +311,31 @@ final class SwiftDataAssignmentStore: AssignmentStore {
         for stored in existing where !currentIDs.contains(stored.id) {
             context.delete(stored)
         }
-        try context.save()
     }
 
-    func saveChanges(_ changes: [AssignmentChange]) throws {
-        let existingIDs = Set(try context.fetch(FetchDescriptor<PersistentAssignmentChange>()).map(\.id))
+    private func insertChangesAndApplyRetention(_ changes: [AssignmentChange]) throws {
+        let existing = try context.fetch(FetchDescriptor<PersistentAssignmentChange>())
+        let existingIDs = Set(existing.map(\.id))
         for change in changes where !existingIDs.contains(change.id) {
             context.insert(PersistentAssignmentChange(change: change))
         }
+
+        // Keep one year of history, capped at the most recent 1,000 records.
+        let cutoff = Calendar.current.date(byAdding: .year, value: -1, to: Date()) ?? .distantPast
+        let retained = try context.fetch(FetchDescriptor<PersistentAssignmentChange>())
+            .sorted { $0.detectedAt > $1.detectedAt }
+        for change in retained.dropFirst(1_000) {
+            context.delete(change)
+        }
+        for change in retained where change.detectedAt < cutoff {
+            context.delete(change)
+        }
+    }
+
+    func markChangeNotificationHandled(id: UUID) throws {
+        guard let change = try context.fetch(FetchDescriptor<PersistentAssignmentChange>())
+            .first(where: { $0.id == id }) else { return }
+        change.notificationHandled = true
         try context.save()
     }
 
@@ -289,9 +356,21 @@ final class SwiftDataAssignmentStore: AssignmentStore {
         try context.save()
     }
 
+    func deleteAllData() throws {
+        do {
+            for value in try context.fetch(FetchDescriptor<PersistentAssignmentChange>()) { context.delete(value) }
+            for value in try context.fetch(FetchDescriptor<PersistentAssignment>()) { context.delete(value) }
+            for value in try context.fetch(FetchDescriptor<PersistentCourse>()) { context.delete(value) }
+            for value in try context.fetch(FetchDescriptor<PersistentSyncMetadata>()) { context.delete(value) }
+            try context.save()
+        } catch {
+            context.rollback()
+            throw error
+        }
+    }
+
     private func metadata(providerID: String) throws -> PersistentSyncMetadata? {
         try context.fetch(FetchDescriptor<PersistentSyncMetadata>())
             .first { $0.providerID == providerID }
     }
 }
-

@@ -11,6 +11,9 @@ struct ProviderCapabilities: OptionSet, Sendable {
 enum ProviderError: LocalizedError, Equatable {
     case notAuthenticated
     case authenticationExpired
+    case networkUnavailable
+    case forbidden
+    case rateLimited
     case unavailable
     case invalidResponse
 
@@ -20,6 +23,12 @@ enum ProviderError: LocalizedError, Equatable {
             "Connect your account before syncing."
         case .authenticationExpired:
             "Your session expired. Reconnect your account and try again."
+        case .networkUnavailable:
+            "Could not connect to Brightspace. Check your internet connection and try again."
+        case .forbidden:
+            "Brightspace did not grant access to the requested course data."
+        case .rateLimited:
+            "Brightspace is receiving too many requests. Wait a moment and try again."
         case .unavailable:
             "The assignment provider is temporarily unavailable."
         case .invalidResponse:
@@ -54,3 +63,12 @@ struct MockAssignmentProvider: AssignmentProvider {
     }
 }
 
+struct ProductionConfigurationRequiredProvider: AssignmentProvider {
+    let id = "brightspace-western"
+    let name = "Western Brightspace"
+    let capabilities: ProviderCapabilities = [.courses, .assignments, .submissionStatus]
+
+    func authenticate() async throws { throw ProviderError.notAuthenticated }
+    func fetchCourses() async throws -> [Course] { throw ProviderError.notAuthenticated }
+    func fetchAssignments() async throws -> [Assignment] { throw ProviderError.notAuthenticated }
+}

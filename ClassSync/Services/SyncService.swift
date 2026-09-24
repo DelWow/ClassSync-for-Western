@@ -47,12 +47,15 @@ final class SyncService {
             let sortedAssignments = assignments.sorted(by: Assignment.dueDateAscending)
             let changes = changeDetector.detect(previous: previous, current: sortedAssignments, detectedAt: attemptedAt)
 
-            try store.saveCourses(courses)
-            try store.replaceAssignments(with: sortedAssignments)
-            try store.saveChanges(changes)
-
             let completedAt = Date()
-            try store.updateSyncMetadata(providerID: provider.id, attemptedAt: attemptedAt, successfulAt: completedAt)
+            try store.applySyncResult(
+                courses: courses,
+                assignments: sortedAssignments,
+                changes: changes,
+                providerID: provider.id,
+                attemptedAt: attemptedAt,
+                successfulAt: completedAt
+            )
             state = .success(completedAt)
             return SyncResult(
                 courses: courses,
@@ -99,6 +102,25 @@ final class InMemoryAssignmentStore: AssignmentStore {
         self.changes.append(contentsOf: changes.filter { !existingIDs.contains($0.id) })
     }
 
+    func applySyncResult(
+        courses: [Course],
+        assignments: [Assignment],
+        changes: [AssignmentChange],
+        providerID: String,
+        attemptedAt: Date,
+        successfulAt: Date
+    ) throws {
+        try saveCourses(courses)
+        try replaceAssignments(with: assignments)
+        try saveChanges(changes)
+        successfulSyncs[providerID] = successfulAt
+    }
+
+    func markChangeNotificationHandled(id: UUID) throws {
+        guard let index = changes.firstIndex(where: { $0.id == id }) else { return }
+        changes[index].notificationHandled = true
+    }
+
     func lastSuccessfulSync(providerID: String) throws -> Date? {
         successfulSyncs[providerID]
     }
@@ -107,5 +129,12 @@ final class InMemoryAssignmentStore: AssignmentStore {
         if let successfulAt {
             successfulSyncs[providerID] = successfulAt
         }
+    }
+
+    func deleteAllData() throws {
+        courses.removeAll()
+        assignments.removeAll()
+        changes.removeAll()
+        successfulSyncs.removeAll()
     }
 }

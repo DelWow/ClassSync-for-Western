@@ -22,6 +22,17 @@ final class DomainModelTests: XCTestCase {
 
         XCTAssertEqual(sorted.map(\.id), ["earlier", "later", "missing"])
     }
+
+    func testAssignmentURLValidationAllowsExpectedProviderHost() {
+        let assignment = makeAssignment(url: URL(string: "https://westernu.brightspace.com/d2l/home/123"))
+        XCTAssertEqual(AssignmentURLValidator.validatedURL(for: assignment), assignment.url)
+    }
+
+    func testAssignmentURLValidationRejectsInsecureOrLookalikeHosts() {
+        XCTAssertNil(AssignmentURLValidator.validatedURL(for: makeAssignment(url: URL(string: "http://westernu.brightspace.com/d2l/home/123"))))
+        XCTAssertNil(AssignmentURLValidator.validatedURL(for: makeAssignment(url: URL(string: "https://brightspace.com.example.org/phishing"))))
+        XCTAssertNil(AssignmentURLValidator.validatedURL(for: makeAssignment(url: URL(string: "https://student@westernu.brightspace.com/d2l/home/123"))))
+    }
 }
 
 func makeAssignment(
@@ -29,7 +40,8 @@ func makeAssignment(
     title: String = "Assignment",
     dueDate: Date? = Date(timeIntervalSince1970: 1_000),
     status: AssignmentStatus = .upcoming,
-    updatedAt: Date = Date(timeIntervalSince1970: 500)
+    updatedAt: Date = Date(timeIntervalSince1970: 500),
+    url: URL? = nil
 ) -> Assignment {
     Assignment(
         id: id,
@@ -40,10 +52,9 @@ func makeAssignment(
         title: title,
         dueDate: dueDate,
         source: .brightspace,
-        url: URL(string: "https://example.com/assignments/\(id)"),
+        url: url ?? URL(string: "https://westernu.brightspace.com/assignments/\(id)"),
         status: status,
         createdAt: Date(timeIntervalSince1970: 100),
         updatedAt: updatedAt
     )
 }
-
