@@ -1,0 +1,316 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		100000000000000000000201 /* ClassSyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000011 /* ClassSyncApp.swift */; };
+		100000000000000000000202 /* MockAssignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000012 /* MockAssignment.swift */; };
+		100000000000000000000203 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000013 /* MenuBarView.swift */; };
+		100000000000000000000204 /* AssignmentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000014 /* AssignmentRow.swift */; };
+		100000000000000000000205 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000015 /* DashboardView.swift */; };
+		100000000000000000000206 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000016 /* SettingsView.swift */; };
+		100000000000000000000207 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000017 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		100000000000000000000010 /* ClassSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		100000000000000000000011 /* ClassSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassSyncApp.swift; sourceTree = "<group>"; };
+		100000000000000000000012 /* MockAssignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAssignment.swift; sourceTree = "<group>"; };
+		100000000000000000000013 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		100000000000000000000014 /* AssignmentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentRow.swift; sourceTree = "<group>"; };
+		100000000000000000000015 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		100000000000000000000016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		100000000000000000000017 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		100000000000000000000018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		100000000000000000000302 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		100000000000000000000100 = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000102 /* ClassSync */,
+				100000000000000000000101 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		100000000000000000000101 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000010 /* ClassSync.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		100000000000000000000102 /* ClassSync */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000103 /* App */,
+				100000000000000000000104 /* Models */,
+				100000000000000000000105 /* Views */,
+				100000000000000000000106 /* Resources */,
+			);
+			path = ClassSync;
+			sourceTree = "<group>";
+		};
+		100000000000000000000103 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000011 /* ClassSyncApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		100000000000000000000104 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000012 /* MockAssignment.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		100000000000000000000105 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000107 /* Components */,
+				100000000000000000000108 /* Dashboard */,
+				100000000000000000000109 /* MenuBar */,
+				10000000000000000000010A /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		100000000000000000000106 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000017 /* Assets.xcassets */,
+				100000000000000000000018 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		100000000000000000000107 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000014 /* AssignmentRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		100000000000000000000108 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000015 /* DashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		100000000000000000000109 /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000013 /* MenuBarView.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		10000000000000000000010A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000016 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		100000000000000000000401 /* ClassSync */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 100000000000000000000502 /* Build configuration list for PBXNativeTarget "ClassSync" */;
+			buildPhases = (
+				100000000000000000000301 /* Sources */,
+				100000000000000000000302 /* Frameworks */,
+				100000000000000000000303 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClassSync;
+			packageProductDependencies = (
+			);
+			productName = ClassSync;
+			productReference = 100000000000000000000010 /* ClassSync.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		100000000000000000000400 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					100000000000000000000401 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = 100000000000000000000501 /* Build configuration list for PBXProject "ClassSync" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 100000000000000000000100;
+			productRefGroup = 100000000000000000000101 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				100000000000000000000401 /* ClassSync */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		100000000000000000000303 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000207 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		100000000000000000000301 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000201 /* ClassSyncApp.swift in Sources */,
+				100000000000000000000202 /* MockAssignment.swift in Sources */,
+				100000000000000000000203 /* MenuBarView.swift in Sources */,
+				100000000000000000000204 /* AssignmentRow.swift in Sources */,
+				100000000000000000000205 /* DashboardView.swift in Sources */,
+				100000000000000000000206 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		100000000000000000000601 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		100000000000000000000602 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEAD_CODE_STRIPPING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+		};
+			name = Release;
+		};
+		100000000000000000000603 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClassSync/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.annasamar.ClassSync;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		100000000000000000000604 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClassSync/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.annasamar.ClassSync;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		100000000000000000000501 /* Build configuration list for PBXProject "ClassSync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				100000000000000000000601 /* Debug */,
+				100000000000000000000602 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		100000000000000000000502 /* Build configuration list for PBXNativeTarget "ClassSync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				100000000000000000000603 /* Debug */,
+				100000000000000000000604 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 100000000000000000000400 /* Project object */;
+}
+
