@@ -9,7 +9,7 @@ ClassSync is a native macOS menu bar application for tracking course assignments
 - Native SwiftUI `MenuBarExtra` with an agent-style menu bar presence
 - Upcoming, submitted, overdue, and no-due-date assignment states
 - Today, Tomorrow, This Week, Overdue, and No Due Date grouping
-- Full dashboard with Today, Upcoming, Calendar, Changes, Courses, and Settings sections
+- Full dashboard with focused Today, Upcoming, Calendar, Changes, and Courses sections
 - Search and course filtering
 - Assignment and notification links open in Google Chrome, with Safari as the fallback
 - Local SwiftData storage for courses, assignments, changes, and sync metadata

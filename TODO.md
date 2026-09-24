@@ -98,7 +98,7 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Add the Calendar section
 - [x] Add the Changes section
 - [x] Add the Courses section
-- [x] Add the Settings section
+- [x] Keep settings in the native Settings window instead of duplicating them in the dashboard
 - [x] Add the upcoming assignment list
 - [x] Add course filtering
 - [x] Add assignment search

@@ -6,7 +6,6 @@ private enum DashboardSection: String, CaseIterable, Identifiable {
     case calendar = "Calendar"
     case changes = "Changes"
     case courses = "Courses"
-    case settings = "Settings"
 
     var id: String { rawValue }
 
@@ -17,7 +16,6 @@ private enum DashboardSection: String, CaseIterable, Identifiable {
         case .calendar: "calendar"
         case .changes: "clock.arrow.circlepath"
         case .courses: "books.vertical"
-        case .settings: "gearshape"
         }
     }
 }
@@ -61,9 +59,6 @@ struct DashboardView: View {
             ChangeHistoryView(appModel: appModel)
         case .courses:
             CourseListView(appModel: appModel)
-        case .settings:
-            SettingsContentView(appModel: appModel)
-                .navigationTitle("Settings")
         }
     }
 
