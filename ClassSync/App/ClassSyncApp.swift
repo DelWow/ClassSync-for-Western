@@ -43,7 +43,7 @@ struct ClassSyncApp: App {
             DashboardView(appModel: appModel)
                 .task { appModel.load() }
         }
-        .defaultSize(width: 720, height: 480)
+        .defaultSize(width: 900, height: 600)
 
         Settings {
             SettingsView(appModel: appModel)

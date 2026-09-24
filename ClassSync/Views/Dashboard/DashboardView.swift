@@ -34,11 +34,13 @@ struct DashboardView: View {
                     .tag(section)
             }
             .navigationTitle("ClassSync")
-            .navigationSplitViewColumnWidth(min: 170, ideal: 190)
+            .frame(minWidth: 180)
+            .navigationSplitViewColumnWidth(min: 180, ideal: 200, max: 240)
         } detail: {
             detail(for: selection ?? .upcoming)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .frame(minWidth: 720, minHeight: 480)
+        .frame(minWidth: 820, minHeight: 540)
     }
 
     @ViewBuilder
@@ -134,11 +136,16 @@ private struct AssignmentCalendarView: View {
             Divider()
 
             HSplitView {
-                DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
-                    .datePickerStyle(.graphical)
-                    .labelsHidden()
-                    .padding()
-                    .frame(minWidth: 300)
+                VStack {
+                    DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
+                        .controlSize(.large)
+                        .padding(20)
+
+                    Spacer(minLength: 0)
+                }
+                .frame(minWidth: 320, maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
                 VStack(alignment: .leading) {
                     Text(selectedDate, format: .dateTime.weekday(.wide).month(.wide).day())
@@ -153,12 +160,15 @@ private struct AssignmentCalendarView: View {
                                 assignment: assignment,
                                 courseColorHex: appModel.colorHex(for: assignment.courseID)
                             )
+                            .padding(.trailing, 8)
                         }
                     }
                 }
-                .frame(minWidth: 320)
+                .frame(minWidth: 340, maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .navigationTitle("Calendar")
     }
 }
@@ -273,6 +283,7 @@ private struct ChangeHistoryView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .navigationTitle("Recent Changes")
     }
 }

@@ -104,6 +104,9 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Add assignment search
 - [x] Preserve window sizing and sensible macOS behavior
 - [x] Add useful empty, loading, and error states
+- [ ] Make dashboard detail screens fill the available window instead of centering vertically
+- [ ] Prevent the dashboard sidebar from collapsing enough to hide navigation icons
+- [ ] Prevent calendar assignment details from clipping at the window edge
 
 ## Phase 7 — Provider Architecture
 
