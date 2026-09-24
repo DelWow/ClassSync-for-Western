@@ -6,11 +6,13 @@ struct AssignmentRow: View {
 
     var body: some View {
         if let url = AssignmentURLValidator.validatedURL(for: assignment) {
-            Link(destination: url) {
+            Button {
+                PreferredBrowserService.open(url)
+            } label: {
                 rowContent
             }
             .buttonStyle(.plain)
-            .help("Open in \(assignment.source.displayName)")
+            .help("Open in Google Chrome (Safari fallback)")
         } else {
             rowContent
         }

@@ -82,7 +82,7 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Visually distinguish overdue assignments without relying on color alone
 - [x] Visually distinguish submitted assignments when status is available
 - [x] Make assignments with source URLs clickable
-- [x] Open assignment URLs in the default browser
+- [x] Open assignment URLs in Google Chrome with Safari fallback
 - [x] Handle long assignment and course names gracefully
 - [x] Add useful empty states for each date group
 - [x] Add a compact loading state
@@ -139,6 +139,7 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Prefer official OAuth when it is available
 - [x] Document the authentication approach and threat model
 - [ ] Implement a secure connect-account flow
+- [ ] Route Western sign-in through Google Chrome with Safari fallback after OAuth approval
 - [ ] Support MFA without bypassing university protections
 - [ ] Implement an embedded WebKit flow only if required and appropriate
 - [x] Never request storage of the user's Western password
@@ -296,11 +297,13 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Add a Notifications settings section
 - [x] Add a Courses settings section
 - [x] Add an Account settings section
+- [x] Add a clearly labeled Sign in with Western account action and approval-gated state
 - [x] Add automatic-sync preference
 - [x] Add configurable sync frequency
 - [x] Add per-notification-type preferences
 - [x] Add per-course enable and disable controls
 - [ ] Add Brightspace connect and disconnect controls
+  - Sign in is intentionally disabled until Western approves the OAuth client ID, redirect URI, and secure authorization-code exchange design.
 - [x] Persist settings locally
 - [x] Apply setting changes without requiring an unnecessary restart
 
@@ -352,7 +355,7 @@ This file is the source of truth for project progress. Check an item only after 
 
 - [x] Retain the original provider URL for each assignment when available
 - [x] Validate provider URLs before opening them
-- [x] Open assignment pages in the default browser
+- [x] Open assignment pages in Google Chrome with Safari fallback
 - [x] Provide a fallback when an assignment URL is missing
 - [x] Document that the application is read-only
 - [x] Ensure no provider client method submits assignments

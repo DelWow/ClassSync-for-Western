@@ -11,6 +11,7 @@ ClassSync is a native macOS menu bar application for tracking course assignments
 - Today, Tomorrow, This Week, Overdue, and No Due Date grouping
 - Full dashboard with Today, Upcoming, Calendar, Changes, Courses, and Settings sections
 - Search and course filtering
+- Assignment and notification links open in Google Chrome, with Safari as the fallback
 - Local SwiftData storage for courses, assignments, changes, and sync metadata
 - Provider-independent assignment and course models
 - Isolated, read-only Western Brightspace client and mapping layer with sanitized contract tests
@@ -88,7 +89,7 @@ Western's OWL tenant is configured as `https://westernu.brightspace.com`. The cl
 - `calendar:my_events:read`
 - `dropbox:folders:read`
 
-Brightspace requires an OAuth application registration before API access. Western's Brightspace administrator must approve/register ClassSync, its redirect URI, and these scopes. Do not add a client secret to this repository or ship one inside the macOS app. D2L's documented authorization-code flow uses a client secret, so the final exchange design must be agreed with Western/D2L before the Connect Account UI is enabled. Until then, no production login is presented and the mock provider remains the safe default.
+Brightspace requires an OAuth application registration before API access. Western's Brightspace administrator must approve/register ClassSync, its redirect URI, and these scopes. Do not add a client secret to this repository or ship one inside the macOS app. D2L's documented authorization-code flow uses a client secret, so the final exchange design must be agreed with Western/D2L before account connection is enabled. Settings presents the intended **Sign in with Western** action in a disabled approval-gated state; the mock provider remains the safe default until the required configuration is available.
 
 The intended threat boundary is narrow: authentication occurs through the university/Brightspace login experience (including MFA), tokens are stored only in macOS Keychain, API requests use TLS and Bearer authorization, logs never contain credentials, and provider responses are mapped into minimal shared models. Expired tokens produce a reconnect-required error. ClassSync never requests or stores a Western password.
 

@@ -39,6 +39,29 @@ final class SystemServiceTests: XCTestCase {
         service.setEnabled(true)
         guard case .failed = service.state else { return XCTFail("Expected failed state") }
     }
+
+    func testPreferredBrowserChoosesChromeBeforeSafari() throws {
+        let installedApplications = [
+            "com.google.Chrome": URL(fileURLWithPath: "/Applications/Google Chrome.app"),
+            "com.apple.Safari": URL(fileURLWithPath: "/Applications/Safari.app")
+        ]
+
+        let browser = PreferredBrowserService.preferredBrowser {
+            installedApplications[$0]
+        }
+
+        XCTAssertEqual(browser?.bundleIdentifier, "com.google.Chrome")
+    }
+
+    func testPreferredBrowserFallsBackToSafari() throws {
+        let browser = PreferredBrowserService.preferredBrowser { bundleIdentifier in
+            bundleIdentifier == "com.apple.Safari"
+                ? URL(fileURLWithPath: "/Applications/Safari.app")
+                : nil
+        }
+
+        XCTAssertEqual(browser?.bundleIdentifier, "com.apple.Safari")
+    }
 }
 
 @MainActor

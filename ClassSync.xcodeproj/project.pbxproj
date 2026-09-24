@@ -46,6 +46,7 @@
 		100000000000000000000235 /* NotificationAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000038 /* NotificationAppDelegate.swift */; };
 		100000000000000000000236 /* CalendarIntegrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000039 /* CalendarIntegrationService.swift */; };
 		100000000000000000000237 /* CalendarIntegrationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000000000000000000003A /* CalendarIntegrationServiceTests.swift */; };
+		100000000000000000000238 /* PreferredBrowserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10000000000000000000003B /* PreferredBrowserService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		100000000000000000000038 /* NotificationAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAppDelegate.swift; sourceTree = "<group>"; };
 		100000000000000000000039 /* CalendarIntegrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIntegrationService.swift; sourceTree = "<group>"; };
 		10000000000000000000003A /* CalendarIntegrationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarIntegrationServiceTests.swift; sourceTree = "<group>"; };
+		10000000000000000000003B /* PreferredBrowserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferredBrowserService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +281,7 @@
 				100000000000000000000027 /* AppLogger.swift */,
 				100000000000000000000037 /* AssignmentURLValidator.swift */,
 				10000000000000000000002D /* Color+Hex.swift */,
+				10000000000000000000003B /* PreferredBrowserService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				100000000000000000000225 /* AppLogger.swift in Sources */,
 				100000000000000000000227 /* AppError.swift in Sources */,
 				10000000000000000000022A /* Color+Hex.swift in Sources */,
+				100000000000000000000238 /* PreferredBrowserService.swift in Sources */,
 				100000000000000000000203 /* MenuBarView.swift in Sources */,
 				100000000000000000000204 /* AssignmentRow.swift in Sources */,
 				100000000000000000000205 /* DashboardView.swift in Sources */,

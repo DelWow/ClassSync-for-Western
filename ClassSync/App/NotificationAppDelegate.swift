@@ -22,6 +22,8 @@ final class NotificationAppDelegate: NSObject, NSApplicationDelegate, UNUserNoti
         else {
             return
         }
-        NSWorkspace.shared.open(validatedURL)
+        Task { @MainActor in
+            PreferredBrowserService.open(validatedURL)
+        }
     }
 }

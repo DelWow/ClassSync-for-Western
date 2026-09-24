@@ -190,12 +190,33 @@ struct SettingsContentView: View {
             }
 
             Section("Account") {
-                LabeledContent("Provider", value: appModel.providerName)
-                Text(appModel.isUsingMockProvider
-                    ? "This Debug build uses offline fixture data."
-                    : "Production Brightspace authentication requires approved OAuth registration before it can connect.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                HStack(alignment: .center, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        LabeledContent("Provider", value: appModel.providerName)
+                        Text(accountStatusDescription)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+
+                    Button("Sign in with Western") {
+                        // Enabled only after Western approves the OAuth registration and
+                        // the authorization-code exchange can be completed without
+                        // embedding a client secret in the app.
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(true)
+                    .help("Waiting for Western to approve ClassSync's OAuth registration")
+                    .accessibilityHint("Unavailable until Western approves the ClassSync OAuth registration")
+                }
+
+                Label(
+                    "Your password and MFA are entered only on Western's official sign-in page. ClassSync never receives or stores them.",
+                    systemImage: "lock.shield"
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
 
             Section("Privacy") {
@@ -245,6 +266,13 @@ struct SettingsContentView: View {
         case .denied: "Disabled in System Settings"
         case .authorized: "Enabled"
         }
+    }
+
+    private var accountStatusDescription: String {
+        if appModel.isUsingMockProvider {
+            return "Offline sample data is active. Western sign-in is waiting for OAuth approval."
+        }
+        return "Western sign-in is waiting for an approved OAuth client ID, redirect URI, and secure code-exchange design."
     }
 }
 
