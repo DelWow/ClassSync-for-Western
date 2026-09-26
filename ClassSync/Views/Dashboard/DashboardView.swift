@@ -79,7 +79,7 @@ struct DashboardView: View {
             HStack {
                 Picker("Course", selection: $selectedCourseID) {
                     Text("All Courses").tag("all")
-                    ForEach(appModel.courses) { course in
+                    ForEach(appModel.visibleCourses) { course in
                         Text(course.code).tag(course.id)
                     }
                 }
@@ -240,7 +240,7 @@ private struct ChangeHistoryView: View {
             HStack {
                 Picker("Course", selection: $courseID) {
                     Text("All Courses").tag("all")
-                    ForEach(appModel.courses) { Text($0.code).tag($0.id) }
+                    ForEach(appModel.visibleCourses) { Text($0.code).tag($0.id) }
                 }
                 Picker("Change", selection: $changeType) {
                     Text("All Changes").tag("all")
@@ -292,7 +292,7 @@ private struct CourseListView: View {
     @ObservedObject var appModel: AppModel
 
     var body: some View {
-        List(appModel.courses) { course in
+        List(appModel.visibleCourses) { course in
             HStack(spacing: 10) {
                 Circle()
                     .fill(Color(hex: appModel.colorHex(for: course.id)) ?? .secondary)

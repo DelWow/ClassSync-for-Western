@@ -1,11 +1,12 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     @ObservedObject var appModel: AppModel
 
     var body: some View {
         SettingsContentView(appModel: appModel)
-            .frame(width: 560, height: 520)
+            .frame(width: 660, height: 700)
     }
 }
 
@@ -26,7 +27,15 @@ struct SettingsContentView: View {
     @AppStorage("calendarIntegrationEnabled") private var calendarIntegrationEnabled = false
     @AppStorage("calendarIntegrationCalendarID") private var calendarIntegrationCalendarID = ""
     @AppStorage("removeCancelledCalendarEvents") private var removeCancelledCalendarEvents = true
+    @AppStorage("schoolEmailScanningEnabled") private var schoolEmailScanningEnabled = false
     @State private var confirmsDataDeletion = false
+    @State private var showsSyllabusPicker = false
+    @State private var showsSyllabusReview = false
+    @State private var syllabusReview: SyllabusImportResult?
+    @State private var syllabusPickerMessage: String?
+    @State private var calendarFeedURL = ""
+    @State private var showsEmailReview = false
+    @State private var syllabusCoursePendingRemoval: Course?
 
     init(appModel: AppModel) {
         self.appModel = appModel
@@ -73,6 +82,78 @@ struct SettingsContentView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section("Course Sources") {
+                HStack {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Syllabus")
+                        Text("Import detected dates locally and review every item before saving.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Button("Import Syllabus…") { showsSyllabusPicker = true }
+                }
+                if let message = syllabusPickerMessage ?? appModel.syllabusImportMessage {
+                    Text(message).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+
+            Section("Brightspace Calendar Feed") {
+                Text("Copy your private calendar subscription URL from Brightspace. It is treated like a password and stored only in macOS Keychain.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if appModel.calendarFeedConnected {
+                    LabeledContent("Status", value: "Connected")
+                    Button("Disconnect and Remove Feed Events", role: .destructive) {
+                        appModel.disconnectBrightspaceCalendarFeed(removeImportedData: true)
+                        calendarFeedURL = ""
+                    }
+                } else {
+                    SecureField("Private Brightspace calendar URL", text: $calendarFeedURL)
+                        .textContentType(.URL)
+                    HStack {
+                        Spacer()
+                        Button("Connect Feed") {
+                            let value = calendarFeedURL
+                            Task {
+                                await appModel.connectBrightspaceCalendarFeed(value)
+                                if appModel.calendarFeedConnected { calendarFeedURL = "" }
+                            }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(calendarFeedURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                }
+                if let message = appModel.calendarFeedMessage {
+                    Text(message).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+
+            Section("School Email") {
+                Toggle("Check Western email in Apple Mail", isOn: $schoolEmailScanningEnabled)
+                Text("ClassSync scans only recent messages in an @uwo.ca or @westernu.ca account already configured in Apple Mail. Message contents are processed on this Mac and are not saved. Suggested changes always require review.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                HStack {
+                    Button(appModel.isScanningEmail ? "Scanning…" : "Scan Recent Email") {
+                        Task {
+                            await appModel.scanSchoolEmail()
+                            showsEmailReview = !appModel.emailSuggestions.isEmpty
+                        }
+                    }
+                    .disabled(!schoolEmailScanningEnabled || appModel.isScanningEmail)
+                    Spacer()
+                    if !appModel.emailSuggestions.isEmpty {
+                        Button("Review \(appModel.emailSuggestions.count) Suggestion\(appModel.emailSuggestions.count == 1 ? "" : "s")") {
+                            showsEmailReview = true
+                        }
+                    }
+                }
+                if let message = appModel.emailScanMessage {
+                    Text(message).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+
             Section("Notifications") {
                 Text("ClassSync uses notifications for new assignments, due-date changes, removals, and the deadline reminders you select.")
                     .font(.caption)
@@ -98,11 +179,11 @@ struct SettingsContentView: View {
             }
 
             Section("Courses") {
-                if appModel.courses.isEmpty {
+                if appModel.visibleCourses.isEmpty {
                     Text("No courses available.")
                         .foregroundStyle(.secondary)
                 } else {
-                    ForEach(appModel.courses) { course in
+                    ForEach(appModel.visibleCourses) { course in
                         HStack {
                             Toggle(
                                 course.code,
@@ -131,6 +212,17 @@ struct SettingsContentView: View {
                             }
                             .labelsHidden()
                             .frame(width: 130)
+
+                            if course.source == .syllabus {
+                                Button(role: .destructive) {
+                                    syllabusCoursePendingRemoval = course
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .buttonStyle(.borderless)
+                                .help("Remove this imported syllabus and its assignments")
+                                .accessibilityLabel("Remove imported syllabus for \(course.code)")
+                            }
                         }
                         Text(course.name)
                             .font(.caption)
@@ -233,6 +325,31 @@ struct SettingsContentView: View {
         }
         .formStyle(.grouped)
         .padding()
+        .fileImporter(
+            isPresented: $showsSyllabusPicker,
+            allowedContentTypes: Self.syllabusDocumentTypes,
+            allowsMultipleSelection: false
+        ) { result in
+            do {
+                guard let url = try result.get().first else { return }
+                syllabusReview = try appModel.loadSyllabus(at: url)
+                syllabusPickerMessage = nil
+                showsSyllabusReview = true
+            } catch {
+                syllabusPickerMessage = (error as? LocalizedError)?.errorDescription ?? "The syllabus could not be opened."
+            }
+        }
+        .sheet(isPresented: $showsSyllabusReview) {
+            if let review = syllabusReview {
+                SyllabusReviewView(initialResult: review) { approved in
+                    appModel.importSyllabus(approved)
+                    showsSyllabusReview = false
+                }
+            }
+        }
+        .sheet(isPresented: $showsEmailReview) {
+            EmailSuggestionReviewView(appModel: appModel)
+        }
         .confirmationDialog(
             "Delete local ClassSync data?",
             isPresented: $confirmsDataDeletion,
@@ -244,7 +361,25 @@ struct SettingsContentView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This removes local courses, assignments, change history, sync timestamps, reminders, and ClassSync-created calendar events. It does not change anything in Brightspace.")
+            Text("This removes local courses, assignments, change history, sync timestamps, reviewed-email identifiers, the saved private feed URL, reminders, and ClassSync-created calendar events. It does not change anything in Brightspace or Apple Mail.")
+        }
+        .confirmationDialog(
+            "Remove imported syllabus?",
+            isPresented: Binding(
+                get: { syllabusCoursePendingRemoval != nil },
+                set: { if !$0 { syllabusCoursePendingRemoval = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            if let course = syllabusCoursePendingRemoval {
+                Button("Remove \(course.code)", role: .destructive) {
+                    appModel.removeImportedSyllabusCourse(course)
+                    syllabusCoursePendingRemoval = nil
+                }
+            }
+            Button("Cancel", role: .cancel) { syllabusCoursePendingRemoval = nil }
+        } message: {
+            Text("This removes only assignments imported from this syllabus. Brightspace calendar-feed data and other courses are unchanged.")
         }
     }
 
@@ -274,8 +409,161 @@ struct SettingsContentView: View {
         }
         return "Western sign-in is waiting for an approved OAuth client ID, redirect URI, and secure code-exchange design."
     }
+
+    private static var syllabusDocumentTypes: [UTType] {
+        var values: [UTType] = [.pdf, .plainText, .rtf]
+        if let doc = UTType(filenameExtension: "doc") { values.append(doc) }
+        if let docx = UTType(filenameExtension: "docx") { values.append(docx) }
+        return values
+    }
 }
 
 private extension String {
     var nilIfEmpty: String? { isEmpty ? nil : self }
+}
+
+private struct SyllabusReviewView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var result: SyllabusImportResult
+    let onImport: (SyllabusImportResult) -> Void
+
+    init(initialResult: SyllabusImportResult, onImport: @escaping (SyllabusImportResult) -> Void) {
+        _result = State(initialValue: initialResult)
+        self.onImport = onImport
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Review Syllabus Import").font(.title2.bold())
+            Text("Nothing is saved until you approve this list.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            ForEach(result.warnings, id: \.self) { warning in
+                Label(warning, systemImage: "exclamationmark.triangle.fill")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+
+            if result.drafts.contains(where: { $0.dueDate < Date() }) {
+                HStack {
+                    Button("Move Past Dates Forward") { movePastDatesForward() }
+                        .help("Advances each past date by whole years until it is no longer in the past.")
+                    Button("Deselect Past Dates") { deselectPastDates() }
+                    Spacer()
+                }
+            }
+
+            Form {
+                TextField("Course code", text: $result.courseCode)
+                TextField("Course name", text: $result.courseName)
+                ForEach($result.drafts) { $draft in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Toggle(isOn: $draft.isSelected) {
+                            TextField("Assignment title", text: $draft.title)
+                        }
+                        DatePicker(
+                            "Due",
+                            selection: $draft.dueDate,
+                            displayedComponents: [.date, .hourAndMinute]
+                        )
+                        .disabled(!draft.isSelected)
+                        if draft.dueDate < Date() {
+                            Label("This date is in the past", systemImage: "clock.badge.exclamationmark")
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+            .formStyle(.grouped)
+
+            HStack {
+                Button("Cancel", role: .cancel) { dismiss() }
+                Spacer()
+                Button("Import Selected") { onImport(result) }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(result.drafts.allSatisfy { !$0.isSelected })
+            }
+        }
+        .padding(20)
+        .frame(minWidth: 620, minHeight: 520)
+    }
+
+    private func movePastDatesForward() {
+        let now = Date()
+        for index in result.drafts.indices where result.drafts[index].dueDate < now {
+            var adjusted = result.drafts[index].dueDate
+            while adjusted < now {
+                guard let next = Calendar.current.date(byAdding: .year, value: 1, to: adjusted) else { break }
+                adjusted = next
+            }
+            result.drafts[index].dueDate = adjusted
+        }
+        result.warnings.removeAll { $0.localizedCaseInsensitiveContains("well in the past") }
+    }
+
+    private func deselectPastDates() {
+        let now = Date()
+        for index in result.drafts.indices where result.drafts[index].dueDate < now {
+            result.drafts[index].isSelected = false
+        }
+    }
+}
+
+private struct EmailSuggestionReviewView: View {
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var appModel: AppModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Review Email Suggestions").font(.title2.bold())
+            Text("Email never changes a deadline until you approve it here.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            if appModel.emailSuggestions.isEmpty {
+                ContentUnavailableView(
+                    "No Suggestions",
+                    systemImage: "checkmark.circle",
+                    description: Text("All detected messages have been reviewed.")
+                )
+            } else {
+                List(appModel.emailSuggestions) { suggestion in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("\(suggestion.courseCode) · \(suggestion.assignmentTitle)")
+                            .font(.headline)
+                        HStack {
+                            Text(suggestion.previousDueDate?.formatted(date: .abbreviated, time: .shortened) ?? "No previous date")
+                                .foregroundStyle(.secondary)
+                            Image(systemName: "arrow.right")
+                            Text(suggestion.proposedDueDate.formatted(date: .abbreviated, time: .shortened))
+                                .fontWeight(.semibold)
+                        }
+                        Text("\(suggestion.emailSubject) — \(suggestion.sender)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                        HStack {
+                            Button("Dismiss") { appModel.dismissEmailSuggestion(suggestion) }
+                            Button("Apply Change") {
+                                Task { await appModel.applyEmailSuggestion(suggestion) }
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+
+            HStack {
+                Spacer()
+                Button("Done") { dismiss() }
+                    .keyboardShortcut(.defaultAction)
+            }
+        }
+        .padding(20)
+        .frame(minWidth: 650, minHeight: 480)
+    }
 }

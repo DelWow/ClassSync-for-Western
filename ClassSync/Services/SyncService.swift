@@ -40,11 +40,17 @@ final class SyncService {
 
         do {
             try store.updateSyncMetadata(providerID: provider.id, attemptedAt: attemptedAt, successfulAt: nil)
+            let previousCourses = try store.fetchCourses()
             let previous = try store.fetchAssignments()
             async let fetchedCourses = provider.fetchCourses()
             async let fetchedAssignments = provider.fetchAssignments()
-            let (courses, assignments) = try await (fetchedCourses, fetchedAssignments)
-            let sortedAssignments = assignments.sorted(by: Assignment.dueDateAscending)
+            let (managedCourses, managedAssignments) = try await (fetchedCourses, fetchedAssignments)
+            let preservedCourses = previousCourses.filter { !provider.managedSources.contains($0.source) }
+            let preservedAssignments = previous.filter { !provider.managedSources.contains($0.source) }
+            let courses = (preservedCourses + managedCourses).uniqued(on: \.id)
+                .sorted { $0.code.localizedStandardCompare($1.code) == .orderedAscending }
+            let sortedAssignments = (preservedAssignments + managedAssignments).uniqued(on: \.id)
+                .sorted(by: Assignment.dueDateAscending)
             let changes = changeDetector.detect(previous: previous, current: sortedAssignments, detectedAt: attemptedAt)
 
             let completedAt = Date()
@@ -72,6 +78,13 @@ final class SyncService {
     }
 }
 
+private extension Sequence {
+    func uniqued<ID: Hashable>(on keyPath: KeyPath<Element, ID>) -> [Element] {
+        var seen: Set<ID> = []
+        return filter { seen.insert($0[keyPath: keyPath]).inserted }
+    }
+}
+
 @MainActor
 final class InMemoryAssignmentStore: AssignmentStore {
     private(set) var courses: [Course]
@@ -90,6 +103,10 @@ final class InMemoryAssignmentStore: AssignmentStore {
     func fetchChanges() throws -> [AssignmentChange] { changes }
 
     func saveCourses(_ courses: [Course]) throws {
+        self.courses = courses
+    }
+
+    func replaceCourses(with courses: [Course]) throws {
         self.courses = courses
     }
 

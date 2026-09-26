@@ -87,6 +87,7 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Add useful empty states for each date group
 - [x] Add a compact loading state
 - [x] Add a compact synchronization error state
+- [x] Keep stale or excessive overdue items from taking over the menu bar window
 
 ## Phase 6 — Dashboard
 
@@ -104,9 +105,9 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Add assignment search
 - [x] Preserve window sizing and sensible macOS behavior
 - [x] Add useful empty, loading, and error states
-- [ ] Make dashboard detail screens fill the available window instead of centering vertically
-- [ ] Prevent the dashboard sidebar from collapsing enough to hide navigation icons
-- [ ] Prevent calendar assignment details from clipping at the window edge
+- [x] Make dashboard detail screens fill the available window instead of centering vertically
+- [x] Prevent the dashboard sidebar from collapsing enough to hide navigation icons
+- [x] Prevent calendar assignment details from clipping at the window edge
 
 ## Phase 7 — Provider Architecture
 
@@ -193,6 +194,62 @@ This file is the source of truth for project progress. Check an item only after 
 - [x] Handle deleted or cancelled assignments
 - [x] Map submission status when the API provides it
 - [x] Test assignment creation, update, removal, and deduplication
+
+## Phase 12A — Syllabus Import
+
+- [x] Let users select syllabus documents with the native file picker
+- [x] Extract syllabus text locally without uploading documents
+- [x] Support text-based PDF, plain-text, RTF, and Word syllabus documents
+- [x] Infer course codes and names from syllabus content and filenames
+- [x] Detect assignment-like titles and due dates
+- [x] Recognize month-first, day-first, numeric, ISO, abbreviated-month, 12-hour, and 24-hour dates
+- [x] Reconstruct assessment rows when PDF table extraction splits titles and dates across nearby lines
+- [x] Resolve yearless winter dates into the appropriate upcoming academic year
+- [x] Warn about clearly stale dates and provide bulk move-forward and deselect controls
+- [x] Present detected syllabus items for review before saving
+- [x] Let users edit course, title, and due-date details before import
+- [x] Preserve syllabus provenance on imported assignments
+- [x] Deduplicate repeated syllabus imports
+- [x] Keep syllabus item IDs stable across due-date corrections
+- [x] Replace a course's previous syllabus snapshot when it is re-imported
+- [x] Let users remove one bad syllabus import without deleting unrelated data
+- [x] Add syllabus parser and import tests
+- [ ] Add OCR for scanned/image-only syllabi as a future enhancement
+
+## Phase 12B — Brightspace Calendar Feed Sync
+
+- [x] Add an opt-in private Brightspace iCalendar feed connection
+- [x] Validate that configured feed URLs use HTTPS and the Western Brightspace host
+- [x] Store the private calendar feed URL only in macOS Keychain
+- [x] Parse folded iCalendar fields, stable event identifiers, URLs, and due dates
+- [x] Handle UTC, local, time-zone-qualified, and all-day calendar values
+- [x] Infer course metadata from calendar event content where possible
+- [x] Limit calendar-feed imports to recent and upcoming academic work instead of historical courses
+- [x] Merge calendar-feed assignments without deleting syllabus or email-derived data
+- [x] Reconcile duplicate syllabus and calendar items while preserving syllabus fallbacks
+- [x] Remove development sample courses when a real local source is configured
+- [x] Refresh the calendar feed from Sync Now and enabled background sync
+- [x] Refresh a connected calendar feed once when the app launches with automatic sync enabled
+- [x] Add calendar-feed connect and disconnect controls
+- [x] Remove calendar-feed data when the user disconnects and requests removal
+- [x] Add sanitized calendar-feed parsing and provider tests
+- [x] Validate the feed end to end with a real Western private calendar URL
+
+## Phase 12C — School Email Change Detection
+
+- [x] Add an opt-in local Apple Mail integration
+- [x] Request macOS Automation permission with an in-context privacy explanation
+- [x] Restrict scanning to recent messages in configured Western email accounts
+- [x] Process email contents locally and avoid persisting unrelated message bodies
+- [x] Detect deadline-change language and proposed replacement dates
+- [x] Match email changes to existing courses and assignments
+- [x] Present email-derived changes for user review instead of applying them silently
+- [x] Apply approved email deadline changes and record change history
+- [x] Remember dismissed or applied messages without storing their contents
+- [x] Include email scanning in Sync Now only when the user opts in
+- [x] Add email change-detector tests with sanitized messages
+- [ ] Add Microsoft Graph email access as a future alternative to Apple Mail
+- [ ] Validate email detection with a real Western account configured in Apple Mail
 
 ## Phase 13 — Sync Engine
 

@@ -11,12 +11,25 @@ struct ClassSyncApp: App {
     init() {
         let persistence = PersistenceController.shared
         let store = SwiftDataAssignmentStore(container: persistence.container)
+        let calendarFeedConfiguration = BrightspaceCalendarFeedConfiguration()
+        let calendarFeedClient = BrightspaceCalendarFeedClient(configuration: calendarFeedConfiguration)
+        let calendarFeedProvider = BrightspaceCalendarFeedProvider(client: calendarFeedClient)
+        let showsDevelopmentSamplesWhenEmpty: Bool
         #if DEBUG
-        let provider: any AssignmentProvider = MockAssignmentProvider()
+        let provider: any AssignmentProvider = CompositeAssignmentProvider(
+            id: "development-connected-sources",
+            name: "Connected Sources",
+            providers: [calendarFeedProvider]
+        )
+        showsDevelopmentSamplesWhenEmpty = true
         #else
-        // A release build must never silently present fixture data as real LMS data.
-        // This provider remains unavailable until an approved OAuth registration is configured.
-        let provider: any AssignmentProvider = ProductionConfigurationRequiredProvider()
+        // Release builds use only user-configured local/imported sources until approved
+        // Brightspace OAuth configuration becomes available.
+        let provider: any AssignmentProvider = CompositeAssignmentProvider(
+            name: "Connected Sources",
+            providers: [calendarFeedProvider]
+        )
+        showsDevelopmentSamplesWhenEmpty = false
         #endif
         modelContainer = persistence.container
         _appModel = StateObject(
@@ -25,7 +38,10 @@ struct ClassSyncApp: App {
                 store: store,
                 notificationService: NotificationService(),
                 backgroundScheduler: MacBackgroundSyncScheduler(),
-                calendarIntegration: CalendarIntegrationService()
+                calendarIntegration: CalendarIntegrationService(),
+                calendarFeedConfiguration: calendarFeedConfiguration,
+                calendarFeedClient: calendarFeedClient,
+                showsDevelopmentSamplesWhenEmpty: showsDevelopmentSamplesWhenEmpty
             )
         )
     }

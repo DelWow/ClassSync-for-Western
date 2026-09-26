@@ -24,6 +24,8 @@
 	<string>Copyright © 2026. All rights reserved.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>ClassSync needs calendar access to create, update, and remove the assignment deadline events you choose to sync.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>ClassSync uses Apple Mail, with your permission, to check recent messages in your Western account for possible deadline changes. Email contents stay on this Mac and are not saved.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

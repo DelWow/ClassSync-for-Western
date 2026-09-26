@@ -22,13 +22,13 @@ enum AssignmentURLValidator {
 
     private static func isAllowed(host: String, source: AssignmentSource) -> Bool {
         switch source {
-        case .brightspace:
+        case .brightspace, .brightspaceCalendar:
             return host == "brightspace.com" || host.hasSuffix(".brightspace.com")
         case .gradescope:
             return host == "gradescope.com" || host.hasSuffix(".gradescope.com")
         case .crowdmark:
             return host == "crowdmark.com" || host.hasSuffix(".crowdmark.com")
-        case .manual:
+        case .manual, .syllabus, .email:
             return true
         }
     }

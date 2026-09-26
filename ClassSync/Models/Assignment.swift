@@ -9,6 +9,9 @@ enum AssignmentStatus: String, Codable, CaseIterable, Sendable {
 
 enum AssignmentSource: String, Codable, CaseIterable, Sendable {
     case brightspace
+    case brightspaceCalendar
+    case syllabus
+    case email
     case gradescope
     case crowdmark
     case manual
@@ -16,6 +19,9 @@ enum AssignmentSource: String, Codable, CaseIterable, Sendable {
     var displayName: String {
         switch self {
         case .brightspace: "Brightspace"
+        case .brightspaceCalendar: "Brightspace Calendar"
+        case .syllabus: "Syllabus"
+        case .email: "Email"
         case .gradescope: "Gradescope"
         case .crowdmark: "Crowdmark"
         case .manual: "Manual"
@@ -60,4 +66,3 @@ struct Assignment: Identifiable, Codable, Hashable, Sendable {
         }
     }
 }
-

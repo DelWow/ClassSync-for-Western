@@ -198,6 +198,7 @@ protocol AssignmentStore: AnyObject {
     func fetchAssignments() throws -> [Assignment]
     func fetchChanges() throws -> [AssignmentChange]
     func saveCourses(_ courses: [Course]) throws
+    func replaceCourses(with courses: [Course]) throws
     func replaceAssignments(with assignments: [Assignment]) throws
     func saveChanges(_ changes: [AssignmentChange]) throws
     func applySyncResult(
@@ -246,6 +247,11 @@ final class SwiftDataAssignmentStore: AssignmentStore {
         try context.save()
     }
 
+    func replaceCourses(with courses: [Course]) throws {
+        try replaceCourseModels(with: courses)
+        try context.save()
+    }
+
     func replaceAssignments(with assignments: [Assignment]) throws {
         try replaceAssignmentModels(with: assignments)
         try context.save()
@@ -265,7 +271,7 @@ final class SwiftDataAssignmentStore: AssignmentStore {
         successfulAt: Date
     ) throws {
         do {
-            try upsertCourses(courses)
+            try replaceCourseModels(with: courses)
             try replaceAssignmentModels(with: assignments)
             try insertChangesAndApplyRetention(changes)
             let stored = try metadata(providerID: providerID) ?? {
@@ -292,6 +298,23 @@ final class SwiftDataAssignmentStore: AssignmentStore {
             } else {
                 context.insert(PersistentCourse(course: course))
             }
+        }
+    }
+
+    private func replaceCourseModels(with courses: [Course]) throws {
+        let existing = try context.fetch(FetchDescriptor<PersistentCourse>())
+        let byID = Dictionary(uniqueKeysWithValues: existing.map { ($0.id, $0) })
+        let currentIDs = Set(courses.map(\.id))
+
+        for course in courses {
+            if let stored = byID[course.id] {
+                stored.update(with: course)
+            } else {
+                context.insert(PersistentCourse(course: course))
+            }
+        }
+        for stored in existing where !currentIDs.contains(stored.id) {
+            context.delete(stored)
         }
     }
 

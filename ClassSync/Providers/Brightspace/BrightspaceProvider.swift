@@ -4,6 +4,7 @@ actor BrightspaceProvider: AssignmentProvider {
     nonisolated let id = "brightspace-western"
     nonisolated let name = "Western Brightspace"
     nonisolated let capabilities: ProviderCapabilities = [.courses, .assignments, .submissionStatus]
+    nonisolated let managedSources: Set<AssignmentSource> = [.brightspace]
 
     private let client: any BrightspaceClientProtocol
     private let tokenProvider: any BrightspaceAccessTokenProviding

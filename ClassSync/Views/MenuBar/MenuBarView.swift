@@ -8,8 +8,17 @@ struct MenuBarView: View {
 
     private var calendar: Calendar { .current }
 
-    private var overdue: [Assignment] {
+    private var allOverdue: [Assignment] {
         appModel.visibleAssignments.filter(\.isOverdue)
+    }
+
+    private var overdue: [Assignment] {
+        let cutoff = calendar.date(byAdding: .day, value: -45, to: Date()) ?? .distantPast
+        return Array(allOverdue.filter { ($0.dueDate ?? .distantPast) >= cutoff }.prefix(5))
+    }
+
+    private var hiddenOverdueCount: Int {
+        allOverdue.count - overdue.count
     }
 
     private var dueToday: [Assignment] {
@@ -64,6 +73,11 @@ struct MenuBarView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     if !overdue.isEmpty {
                         assignmentSection(title: "Overdue", assignments: overdue)
+                    }
+                    if hiddenOverdueCount > 0 {
+                        Text("\(hiddenOverdueCount) older or additional overdue item\(hiddenOverdueCount == 1 ? " is" : "s are") available in the dashboard.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
                     assignmentSection(title: "Today", assignments: dueToday)
                     assignmentSection(title: "Tomorrow", assignments: dueTomorrow)
